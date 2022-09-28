@@ -1,0 +1,1461 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>fun type system - Fun type system</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">Lake CTF 2022</li><li class="chapter-item expanded "><a href="writeups/fun-type-system.html" class="active"><strong aria-hidden="true">1.</strong> fun type system</a></li><li class="chapter-item expanded "><a href="https://juliapoo.github.io/misc/2022/09/27/social-engineering-to-solve-a-crypto-challenge.html"><strong aria-hidden="true">2.</strong> Juliapoo's social engineering to solve crypto challenge</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Fun type system</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="fun-type-system"><a class="header" href="#fun-type-system">Fun type system</a></h1>
+<p>To get if off my chest, I'll start by answering the question proposed by the title.
+The answer is no. Fuck type systems, from now on I'm only using Lua or Python.</p>
+<p>Now let's review this fun challenge which took me 9 hours to still fail <code>:)</code></p>
+<h2 id="the-challenge"><a class="header" href="#the-challenge">The challenge</a></h2>
+<blockquote>
+<p>Just make the program compile! It shouldn't be that hard...</p>
+<p><a href="TODO">README.md</a></p>
+<p><a href="TODO">Main.scala</a></p>
+<p><a href="TODO">build.sbt</a></p>
+<p><a href="TODO">build.properties</a></p>
+</blockquote>
+<h2 id="how-to-solve-the-challenge"><a class="header" href="#how-to-solve-the-challenge">How to solve the challenge</a></h2>
+<p>We're given a couple of build files, some instructions, and a <code>Main.scala</code> file
+which contains the main part of the challenge. Its contents show a mix of 
+short CTF, pop culture and almost biblical references disguised as types in a
+regular Scala file.</p>
+<p>Our first step will be to make sense out of these names and try to understand
+just what is going on</p>
+<h3 id="part-one-the-rev"><a class="header" href="#part-one-the-rev">Part one: The rev</a></h3>
+<h4 id="first-steps"><a class="header" href="#first-steps">First steps</a></h4>
+<p>The first thing you see when you open the file are some instructions about
+how to solve the challenge. </p>
+<pre><code class="language-scala">// THIS IS THE ONLY LINE YOU HAVE TO CHANGE!
+// if the flag were FLAG, enter it like this:
+// type Flag = CharF =~: CharL =~: CharA =~: CharG =~: Checksum // keep the Checksum at the end
+type Flag = CharQ =~: CharI =~: CharY =~: CharZ =~: CharY =~: CharH =~: CharG =~: CharNul =~: Checksum
+</code></pre>
+<p>This gives us a couple of clues. The input we control in the program is the definition of
+the <code>Flag</code> type. We still don't understand what <code>=~:</code> means, but from it's usage
+we can deduce that it's some kind of operator to create a sequence, and that this
+sequence must end in <code>Checksum</code>, at least for the flag. This deduction is proven
+to be right, as if we search for <code>sealed trait =~:</code> we'll find the line where 
+it's begin defined</p>
+<pre><code class="language-scala">sealed trait =~:[Compare, To]
+</code></pre>
+<details><!--{{{ -->
+<summary>A note on traits</summary>
+In Scala, there exists the concepts of classes and interfaces, mainly form an 
+interest to keep it compatible with Java code, which Scala was designed to 
+[interoperate](https://en.wikipedia.org/wiki/Language_interoperability) with.
+However, in pure Scala code, you won't find any mention of classes or interfaces,
+but only traits. Think of a trait as a more powerful type of interface, with the
+ability to be instantiated as an object. Thought this write up, I'll use type and
+traits almost interchangeably, the same way that I'll refer to [kinds](https://kubuszok.com/compiled/kinds-of-types-in-scala/#kinds-and-higher-kinded-types) as if they were 
+functions. In practice, it's easier to reason about them this way for the 
+challenge, and they aren't that far off the truth.
+<p>The keyword <code>sealed</code> just tells the Scala compiler that all objects implementing
+that trait are defined in the same file the trait definition is in. It's a
+mechanism for controlling the creation of new objects which implement a trait.</p>
+<p>Finally, for those who haven't had any experience with Scala, it may look weird
+that we define a type with the symbols <code>=~:</code>. In Scala you don't have the usual
+restrictions for a keyword you'll find in other languages. </p>
+<p>Also, if your type takes 2 generics as &quot;type arguments&quot;, you can use the infix
+syntax to apply them. These are called <a href="https://www.scala-Lang.org/files/archive/spec/2.11/03-types.html#infix-types">infix operators</a>, which means that the following two are
+equivalent</p>
+<pre><code class="language-scala">=~:[Flag,Flag]
+Flag =~: Flag
+</code></pre>
+</details>
+<!--}}}-->
+<p>Having a lead to hold on to, we look for where <code>Flag</code> is being used in the file,
+which leads us to <code>LPlusRatio</code></p>
+<pre><code class="language-scala">type LPlusRatio = Lake[Leka[Miaouss], Lust[Flag, CharNul =~: Checksum], Leka[&quot;main&quot;] =~: Checksum, TrimMetadata[CheckedComparison, 8], Leka] =:= (I[20] =~: Checksum)
+</code></pre>
+<p>We see another symbol we don't recognize <code>=:=</code>, but it isn't hard to see from 
+it's shape and definition that it consists of another infix type which does an 
+equality check</p>
+<pre><code class="language-scala">type =:=[X, Y] = X match
+  case Y =&gt; Unit
+</code></pre>
+<p>Therefore, we must construct a type <code>Flag</code> such that the output of <code>Lake</code> is
+<code>I[20] =~: Checksum</code>, whatever that may be.</p>
+<!-- TODO: Add reference to  -->
+<p>We'll rename <code>LPlusRatio</code> to <code>VictoryCondition</code></p>
+<pre><code class="language-vim">%s/LPlusRatio/VictoryCondition/g
+</code></pre>
+<h4 id="knocking-down-the-easy-ones-first"><a class="header" href="#knocking-down-the-easy-ones-first">Knocking down the easy ones first</a></h4>
+<p>Having lost our only lead, we proceed to look at the general type definitions in
+the files, hoping to guess what some of them do, and work from there</p>
+<p>The first eye-catching thing we see is the alphabet, defined in terms of weird
+type of enconding</p>
+<pre><code class="language-scala">type CharNul = CheckedComparison
+type CharA = IIIIIIIIII[CharNul, CheckeComparison]
+type CharB = IIIIIIIIII[CharA, CheckeComparison]
+type CharC = IIIIIIIIII[CharB, CheckeComparison]
+type CharD = IIIIIIIIII[CharC, CheckeComparison]
+type CharE = IIIIIIIIII[CharD, CheckeComparison]
+type CharF = IIIIIIIIII[CharE, CheckeComparison]
+type CharG = IIIIIIIIII[CharF, CheckeComparison]
+type CharH = IIIIIIIIII[CharG, CheckeComparison]
+type CharI = IIIIIIIIII[CharH, CheckeComparison]
+type CharJ = IIIIIIIIII[CharI, CheckeComparison]
+type CharK = IIIIIIIIII[CharJ, CheckeComparison]
+type CharL = IIIIIIIIII[CharK, CheckeComparison]
+type CharM = IIIIIIIIII[CharL, CheckeComparison]
+type CharN = IIIIIIIIII[CharM, CheckeComparison]
+type CharO = IIIIIIIIII[CharN, CheckeComparison]
+type CharP = IIIIIIIIII[CharO, CheckeComparison]
+type CharQ = IIIIIIIIII[CharP, CheckeComparison]
+type CharR = IIIIIIIIII[CharQ, CheckeComparison]
+type CharS = IIIIIIIIII[CharR, CheckeComparison]
+type CharT = IIIIIIIIII[CharS, CheckeComparison]
+type CharU = IIIIIIIIII[CharT, CheckeComparison]
+type CharV = IIIIIIIIII[CharU, CheckeComparison]
+type CharW = IIIIIIIIII[CharV, CheckeComparison]
+type CharX = IIIIIIIIII[CharW, CheckeComparison]
+type CharY = IIIIIIIIII[CharX, CheckeComparison]
+type CharZ = IIIIIIIIII[CharY, CheckeComparison]
+</code></pre>
+<p>We see that every character is defined as a &quot;function&quot; of the previous character's
+type and some <code>CheckeComparison</code>, except the <code>Nul</code> character, which is 
+<code>CheckedComparison</code>. Please, don't let the off-by-a-letter difference make you 
+think that these types are both the same. We'll find more of this wonderful 
+naming later on. </p>
+<pre><code class="language-scala">type CheckedComparison = Sc =~: Sc =~: Sc =~: Sc =~: Sc =~: Sc =~: Sc =~: Sc =~: Checksum
+type CheckeComparison  = In =~: Sc =~: Sc =~: Sc =~: Sc =~: Sc =~: Sc =~: Sc =~: Checksum
+</code></pre>
+<p>From these definitions we can see that they're both defined in terms of 9 types,
+put together in a sequence. Both types follow the same kind of structure, with 
+one type off. We also see the <code>Checksum</code> type which marked the end of the flag 
+in these definitions. From here we can deduce that <code>Checksum</code> is some kind of 
+<code>EndOfSequence</code> signal. So we'll rename it as such.</p>
+<pre><code class="language-vim">%s/Checksum/EOS/g
+</code></pre>
+<h4 id="functions-on-lists"><a class="header" href="#functions-on-lists">Functions on lists</a></h4>
+<p>From this finding, we can deduce the function of many other types which don't
+use more than <code>EOS</code> and generic type parameters.</p>
+<pre><code class="language-scala">type Sloth[L, F[_]] = L match
+  case EOS =&gt; EOS
+  case h =~: t =&gt; F[h] =~: Sloth[t, F]
+</code></pre>
+<p>This one appears to take a sequence <code>L</code> and apply a type <code>F[_]</code> over it as if
+it were a function, returning a new sequence with the results from <code>F</code> as their
+elements. This looks like a map operation on cons-lists, so let's rename it as
+such</p>
+<pre><code class="language-vim">%s/Sloth/Map/g
+</code></pre>
+<p>We can find the fold left operation right after <code>Map</code>, under the name of <code>Wrath</code></p>
+<pre><code class="language-scala">type Wrath[L, Z, F[_, _]] = L match
+  case EOS =&gt; Z
+  case h =~: t =&gt; F[h, Wrath[t, Z, F]]
+</code></pre>
+<p>As we see, this one just takes a type <code>F[_,_]</code> with two type parameters, and
+continuously applies this &quot;function&quot; with each element of the sequence and the
+result of the operation on the rest of the sequence. We rename it to <code>Fold</code></p>
+<pre><code class="language-vim">%s/Wrath/Fold/g
+</code></pre>
+<p>Continuing with our scan we find <code>Lust</code>, which uses <code>Fold</code> to concatenate two lists</p>
+<pre><code class="language-scala">type Lust[L, R] = Fold[L, R, [h, t] =&gt;&gt; h =~: t]
+</code></pre>
+<p>The equivalent Scala code wouldn't be much different</p>
+<pre><code class="language-scala">def lust(l: List, r: List) = fold(l, r, (x,r) =&gt; x :: r)
+</code></pre>
+<p>Don't be afraid by the <code>=&gt;&gt;</code>, that's just a handy new Scala 3 feature called 
+<a href="https://docs.scala-lang.org/scala3/reference/new-types/type-lambdas.html">type lambdas</a></p>
+<p>We rename <code>Lust</code> to <code>Concat</code></p>
+<pre><code class="language-vim">%s/Lust/Concat/g
+</code></pre>
+<p>Further down, we encounter <code>YaPas</code>. We have enough information to see what it's
+doing.</p>
+<pre><code class="language-scala">import scala.compiletime.ops.int.S
+type YaPas[X, I] = I match
+  case 0 =&gt; EOS
+  case S[n] =&gt; X match
+    case EOS      =&gt; Sc =~: YaPas[X, n]
+    case h =~: EOS =&gt; h =~: YaPas[X, n]
+    case h =~: t   =&gt; h =~: YaPas[t, n]
+</code></pre>
+<p>the <code>scala.compiletime.ops.int.S</code> seems daunting at first, but it's easy enough
+to look at <a href="https://docs.scala-lang.org/scala3/reference/metaprogramming/compiletime-ops.html">the Scala 3 documentation</a> to figure out what it does.</p>
+<p>From above</p>
+<blockquote>
+<p>Note that S is the type of the successor of some singleton type. For example the type S[1] is the singleton type 2.</p>
+</blockquote>
+<p>The example here gives us the key. Looking at uses of <code>YaPas</code> in the code, it's
+always called with an integer as its second argument. To be precise, <code>YaPas</code> is
+only used to define <code>IIIIIIIII</code> (With 9 <code>I</code>s!), which in turn is only used to 
+define <code>I</code>, which makes it so the only value <code>YaPas</code> ever receives in the second
+argument is 8.</p>
+<pre><code class="language-scala">type I[X] = IIIIIIIII[X, 8]
+type IIIIIIIII[X, Size] = YaPas[K[X], Size]
+</code></pre>
+<p>From the example we know that <code>8 = S[7]</code>, and so the match statement in this
+case only serves to do a subtraction by one.</p>
+<pre><code class="language-scala">import scala.compiletime.ops.int.S
+type YaPas[X, I] = I match
+  case 0 =&gt; EOS
+  case S[n] =&gt; X match
+    case EOS      =&gt; Sc =~: YaPas[X, n]
+    case h =~: EOS =&gt; h =~: YaPas[X, n]
+    case h =~: t   =&gt; h =~: YaPas[t, n]
+</code></pre>
+<p>Knowing this we can see that what <code>YaPas</code> does is either truncate a sequence to
+8 elements, if it's longer than that, or copy the last element over and over
+until there are 8 elements in the Sequence. Therefore, <code>YaPas</code> will extend the
+sequence to fill 8 elements. We'll rename <code>YaPas</code> to <code>Extend</code></p>
+<pre><code class="language-vim">%s/YaPas/Extend/g
+</code></pre>
+<h4 id="finding-the-integers"><a class="header" href="#finding-the-integers">Finding the integers</a></h4>
+<p>We can get our next clue from another definition right above the <code>CheckeComparison</code>
+trait we found before, in the definition of the alphabet.</p>
+<pre><code class="language-scala">type Split[X] = X match
+  case Sc =&gt; In
+  case In =&gt; Sc
+</code></pre>
+<p>This one just seems to switch around <code>Sc</code> for <code>In</code> and <code>In</code> for <code>Sc</code>. Since it 
+looks like a not function, let's call it <code>Not</code>.</p>
+<pre><code class="language-scala">:%s/Split/Not/g
+</code></pre>
+<p>Now, looking at places where <code>Not</code> is used, we find right bellow the <code>LeFeu</code> 
+trait</p>
+<pre><code class="language-scala">type LeFeu[X, Y] = X match
+  case EOS =&gt; EOS
+  case Sc =~: x =&gt; Y match
+    case b =~: y =&gt; b =~: LeFeu[x, y]
+  case In =~: x =&gt; Y match
+    case b =~: y =&gt; Not[b] =~: LeFeu[x, y]
+</code></pre>
+<p>If we observe the code, it looks to be processing two sequences by pairs of 
+elements, where when the element of <code>X</code> is a <code>Sc</code>, it keeps the element of <code>Y</code>
+the same, but if its a <code>In</code>, then it flips the element of <code>Y</code>. It continues 
+processing all elements until it reaches the end of <code>X</code>, at which point it ends
+the sequence.</p>
+<p>Let's look at the outputs of <code>LeFeu</code> in a truth table
+| <code>X</code>  | <code>Y</code>  | <code>LeFeu[X,Y]</code> |
+| <code>Sc</code> | <code>Sc</code> | <code>Sc</code>         |
+| <code>Sc</code> | <code>In</code> | <code>In</code>         |
+| <code>In</code> | <code>Sc</code> | <code>In</code>         |
+| <code>In</code> | <code>In</code> | <code>Sc</code>         |</p>
+<p>From here it's easy to see that <code>LeFeu</code> is the xor operation. </p>
+<pre><code class="language-vim">%s/LeFeu/Xor/g
+</code></pre>
+<p>Even more, we can deduce that <code>Sc</code> represents an off bit and <code>In</code> an on bit, 
+since <code>Xor[In,Y] = Not[Y]</code></p>
+<pre><code class="language-vim">%s/In/OnBit/g
+%s/Sc/OffBit/g
+</code></pre>
+<p>With this, we can come back to <code>CheckedComparison</code> to see that it represents
+a sequence of 8 off bites. This is a 0 byte in binary</p>
+<pre><code class="language-scala">type CheckedComparison = OffBit =~: OffBit =~: OffBit =~: OffBit =~: OffBit =~: OffBit =~: OffBit =~: OffBit =~: EOS
+</code></pre>
+<p>We could have deduced it from <code>CharNul</code> being defined as <code>CheckedComparison</code>, but
+it's good to know for sure.</p>
+<pre><code class="language-vim">%s/CheckedComparison/ZeroByte/g
+</code></pre>
+<p>After figuring out that <code>Sc</code> and <code>In</code> correspond to bits, we can start to decode
+more traits. </p>
+<p>A couple of easy ones first, we find that <code>TheStart</code> and <code>BasicComparison</code> are
+just sequences with a single on and off bit respectively. </p>
+<pre><code class="language-scala">type TheStart = OnBit =~: EOS
+type BasicComparison = OffBit =~: EOS
+</code></pre>
+<p>We rename them to <code>BitstringOne</code> and <code>BitstringZero</code> respectively, to illustrate
+that they are sequences of bits.</p>
+<pre><code class="language-vim">%s/TheStart/BistringOne/g
+%s/BasicComparison/BitstringZero/g
+</code></pre>
+<p>Also, we can go back to <code>CheckeComparison</code> to see that it corresponds to a byte 
+with values 1, with a little endian encoding.</p>
+<pre><code class="language-scala">type CheckeComparison  = OnBit  =~: OffBit =~: OffBit =~: OffBit =~:
+                         OffBit =~: OffBit =~: OffBit =~: OffBit =~: Checksum
+type CheckedComparison = OffBit =~: OffBit =~: OffBit =~: OffBit =~:
+                         OffBit =~: OffBit =~: OffBit =~: OffBit =~: Checksum
+</code></pre>
+<p>To figure out the little endianness, you could have deduced it from how the 
+<code>Extend</code> trait works or just taken a leap of faith, and while the first option 
+is more elegant, what's more likely to happen in a CTF is the second.</p>
+<p>We rename it to <code>OneByte</code>.</p>
+<pre><code class="language-vim">%s/CheckeComparison/OneByte/g
+</code></pre>
+<p>Continuing with our traits that we can understand, we have <code>AuLac</code> which appears
+to scan the sequence <code>X</code> for an <code>OnBit</code>, if it finds it outputs <code>F</code>, and if it
+reaches the end without finding one outputs <code>T</code>.</p>
+<pre><code class="language-scala">type AuLac[X, T, F] = X match
+  case OffBit =~: EOS =&gt; T
+  case OffBit =~: t =&gt; AuLac[t, T, F]
+  case OnBit =~: t =&gt; F
+</code></pre>
+<p>This is a pretty straightforward zero check, so let's rename <code>AuLac</code> to something
+like <code>IfZero</code></p>
+<pre><code class="language-vim">%s/AuLac/IfZero/g
+</code></pre>
+<p>Next is a big one. Although <code>SelectSection</code> has a lot of code, it's not actually
+doing nothing much, just a couple of control statements.</p>
+<pre><code class="language-scala">type SelectSection[X, Y, C] = X match
+  case OffBit =&gt; Y match
+    case OffBit =&gt; C match
+      case OffBit =&gt; (OffBit, OffBit)
+      case OnBit =&gt; (OnBit, OffBit)
+    case OnBit =&gt; C match
+      case OffBit =&gt; (OnBit, OffBit)
+      case OnBit =&gt; (OffBit, OnBit)
+  case OnBit =&gt; Y match    
+    case OffBit =&gt; C match
+      case OffBit =&gt; (OnBit, OffBit)
+      case OnBit =&gt; (OffBit, OnBit)
+    case OnBit =&gt; C match
+      case OffBit =&gt; (OffBit, OnBit)
+      case OnBit =&gt; (OnBit, OnBit)
+</code></pre>
+<p>We can easily understand it better by building a truth table, like we did for <code>Xor</code>.
+For simplicity, let's represent <code>OffBit</code> with 0 and <code>OnBit</code> with 1
+| <code>X</code> | <code>Y</code> | <code>C</code> | <code>SelectSection[X,Y,C]</code> |
+|  0  |  0  |  0  |          0, 0          |
+|  0  |  0  |  1  |          1, 0          |
+|  0  |  1  |  0  |          1, 0          |
+|  0  |  1  |  1  |          0, 1          |
+|  1  |  0  |  0  |          1, 0          |
+|  1  |  0  |  1  |          0, 1          |
+|  1  |  1  |  0  |          0, 1          |
+|  1  |  1  |  1  |          1, 1          |</p>
+<p>It may be hard to see at first, but this corresponds to a binary addition with a
+carry, where the first bit out is the result of the operation, and the second 
+one is the overflow bit. It can also be seen as an output of a 2 bit integer, 
+which since it's little endian is read backwards. Therefore, `1 0 1 = 0 1&quot; Since 
+1 + 0 + the carry bit 1 = 2 = 0b10 = 0,1.</p>
+<p>You can make this connection by staring at the truth table long enough, but you
+can also look where <code>SelectSection</code> is being used to find some type parameter
+names which give it away much easier, in the previously named <code>CheckChecksum</code>
+trait, but since renamed to <code>CheckEOS</code> when we renamed <code>Checksum</code> to <code>EOS</code>.</p>
+<pre><code class="language-scala">type CheckEOS[X, Y, C] = (X, Y) match
+  case (x =~: EOS, y =~: EOS) =&gt; SelectSection[x, y, C] match
+    case (res, carry) =&gt; res =~: carry =~: EOS
+  case (X, y =~: EOS) =&gt; CheckEOS[X, y =~: OffBit =~: EOS, C]
+  case (x =~: EOS, Y) =&gt; CheckEOS[x =~: OffBit =~: EOS, Y, C]
+  case (xh =~: xt, yh =~: yt) =&gt; SelectSection[xh, yh, C] match
+    case (res, carry) =&gt; res =~: CheckEOS[xt, yt, carry]
+</code></pre>
+<p>We see that here <code>SelectSection</code> is being used to get the traits <code>res</code> and 
+<code>carry</code>, whose names nicely match with our previous interpretation. More so, 
+looking at <code>CheckEOS</code> closely we can see that it corresponds to a binary
+addition with a carry <code>C</code>. If the bitstrings X and Y are not the same length,
+the shorter one is extended until it matches the longer one, after which the
+final result is calculated and appended to the end of the solution.</p>
+<p>We therefore have that <code>SelectSection</code> is a <code>BitAddWithCarry</code> and <code>CheckEOS</code> is
+a <code>BitstringAddWithCarry</code></p>
+<pre><code class="language-vim">%s/SelectSection/BitAddWithCarry/g
+%s/CheckEOS/BitstringAddWithCarry/g
+</code></pre>
+<p>Looking at traits which use <code>BitAddWithCarry</code> and <code>BitstringAddWithCarry</code>, 
+we find the traits <code>K</code> and <code>Yea</code></p>
+<pre><code class="language-scala">type K[X] = X match
+  case 0 =&gt; BitstringZero
+  case S[n] =&gt; BitstringAddWithCarry[I[n], BistringOne, OffBit]
+</code></pre>
+<p>Te trait <code>K</code> receives an integer as <code>X</code> and matches 0 with <code>BistringZero</code> and
+n with 1 + <code>K[X-1]</code>, where <code>X-1</code> we obtain thanks to <a href="https://docs.scala-lang.org/scala3/reference/metaprogramming/compiletime-ops.html"><code>S</code></a> and the addition is done with 
+<code>BistringAddWithCarry</code>. Therefore, <code>K</code> is just a constructor for the integers in
+bitstring format. The name <code>K</code> seems proper, so we don't change it.</p>
+<pre><code class="language-scala">type Yea[X, Y, C] = (X, Y) match
+  case (x =~: EOS, y =~: EOS) =&gt; BitAddWithCarry[x, y, C] match
+    case (res, carry) =&gt; res =~: EOS
+  case (xh =~: xt, yh =~: yt) =&gt; BitAddWithCarry[xh, yh, C] match
+    case (res, carry) =&gt; res =~: Yea[xt, yt, carry]
+</code></pre>
+<p><code>Yea</code> just takes two bitstrings of the same length and adds them together. The
+difference with <code>BitstringAddWithCarry</code> is that it requires both <code>X</code> and <code>Y</code> be
+the same length, and the result itself ignores the last carry to ensure that the
+result also has the same length as the inputs.</p>
+<p>This trait is only used to define <code>IIIIIIIIII</code> (With 10 <code>I</code>s!), which is the
+same as <code>Yea</code>, but fixing the carry parameter <code>C</code> as <code>OffBit</code>. This is important
+since the <code>IIIIIIIIII</code> with 10 <code>I</code>s is the trait used to define the alphabet</p>
+<pre><code class="language-scala">type CharA = IIIIIIIIII[CharNul, OneByte]
+type CharB = IIIIIIIIII[CharA, OneByte]
+type CharC = IIIIIIIIII[CharB, OneByte]
+type CharD = IIIIIIIIII[CharC, OneByte]
+type CharE = IIIIIIIIII[CharD, OneByte]
+type CharF = IIIIIIIIII[CharE, OneByte]
+type CharG = IIIIIIIIII[CharF, OneByte]
+type CharH = IIIIIIIIII[CharG, OneByte]
+type CharI = IIIIIIIIII[CharH, OneByte]
+type CharJ = IIIIIIIIII[CharI, OneByte]
+type CharK = IIIIIIIIII[CharJ, OneByte]
+type CharL = IIIIIIIIII[CharK, OneByte]
+type CharM = IIIIIIIIII[CharL, OneByte]
+type CharN = IIIIIIIIII[CharM, OneByte]
+type CharO = IIIIIIIIII[CharN, OneByte]
+type CharP = IIIIIIIIII[CharO, OneByte]
+type CharQ = IIIIIIIIII[CharP, OneByte]
+type CharR = IIIIIIIIII[CharQ, OneByte]
+type CharS = IIIIIIIIII[CharR, OneByte]
+type CharT = IIIIIIIIII[CharS, OneByte]
+type CharU = IIIIIIIIII[CharT, OneByte]
+type CharV = IIIIIIIIII[CharU, OneByte]
+type CharW = IIIIIIIIII[CharV, OneByte]
+type CharX = IIIIIIIIII[CharW, OneByte]
+type CharY = IIIIIIIIII[CharX, OneByte]
+type CharZ = IIIIIIIIII[CharY, OneByte]
+</code></pre>
+<p>Now the encoding finally makes sense. Since <code>IIIIIIIIII</code> with 10 <code>I</code>s is just an
+addition on bytes, the encoding is achieved by starting with <code>CharNul</code> being 0
+and giving each successive letter a successive number, so A is 1, B is 2, and so
+on until Z, which gets 26.</p>
+<p>With these finds, we decide to rename <code>Yea</code> to <code>ByteAddWithCarry</code> and <code>IIIIIIIII</code>
+with 10 <code>I</code>s to <code>ByteAdd</code></p>
+<pre><code class="language-vim">%s/Yea/ByteAddWithCarry/g
+%s/IIIIIIIIII/ByteAdd/g
+</code></pre>
+<p>Since we've started to substitute succesive <code>I</code>s with different names, we might
+as well address the <code>I</code>-traits, traits whose names are made exclusively out of 
+<code>I</code>s. From here we find the now <code>ByteAddI</code>, previously <code>IIIIIIIIIII</code> with 11 <code>I</code>s</p>
+<pre><code class="language-scala">type ByteAddI[X, Y] = ByteAdd[X, ByteAdd[Map[Y, Not], OneByte]]
+</code></pre>
+<p>What <code>ByteAddI</code> does is add <code>X</code> with the negated <code>Y</code>, and add one to the result.
+We observe that a negated <code>Y</code> + 1 is the <a href="https://en.wikipedia.org/wiki/Two%27s_complement">C2</a>
+representation of -Y, so <code>ByteAddI</code> is just a byte substraction. We rename it to
+<code>ByteSub</code></p>
+<pre><code>%s/ByteAddI/ByteSub/g
+</code></pre>
+<p>There are other <code>I</code>-traits which weren't affected by our previous renames</p>
+<pre><code class="language-scala">type I[X] = IIIIIIIII[X, 8]
+type IIIIIIIII[X, Size] = Extend[K[X], Size]
+</code></pre>
+<p>These are both traits we've already encountered. We observe that <code>IIIIIIIII</code> with
+9 <code>I</code>s is just taking a number and a size, converting that number into bitstring
+representation with <code>K</code> and extending it to the provided size. <code>I</code> is just fixing
+the size to be 8, which forms a byte. We'll rename <code>IIIIIIIII</code> to be called
+<code>IntToBitstring</code>, but we'll keep <code>I</code> as it is. Like with <code>K</code> being a constructor
+of integer bitstrings, <code>I</code> is a constructor of integer bytes, so the name seems
+convenient.</p>
+<pre><code class="language-vim">%s/IIIIIIIII/IntToBitstring/g
+</code></pre>
+<p>With this, we can finally understand what the <code>VictoryCondition</code> was
+testing for.
+<code>I[20] =~: EOS</code> is a sequence containing a single byte with a 20 in
+binary.</p>
+<p>With this we've uncovered all operations on integers implemented in the type
+system. However, there are a couple of traits still not decoded. We'll focus
+on those next</p>
+<h4 id="wait-theres-a-tree"><a class="header" href="#wait-theres-a-tree">Wait, there's a tree?</a></h4>
+<p>Starting from the top, the first undecoded trait which looks simple enough is
+<code>AnUnexpctedGift</code>. Notice how the sentence is misspelled in the name.</p>
+<pre><code class="language-scala">type AnUnexpctedGift[T, N, X] = N match
+  case EOS =&gt; T match
+    case Remove[x] =&gt; Remove[X]
+  case OffBit =~: bs =&gt; T match
+    case Swap[l, r] =&gt; Swap[AnUnexpctedGift[l, bs, X], r]
+  case OnBit =~: bs =&gt; T match
+    case Swap[l, r] =&gt; Swap[l, AnUnexpctedGift[r, bs, X]]
+</code></pre>
+<p>Some new traits are used in the definition. Thankfully, their definitions looks 
+to be simple enough</p>
+<pre><code class="language-scala">sealed trait Swap[L, R]
+sealed trait Remove[X]   
+</code></pre>
+<p><code>Swap</code> is but a simple pair of types, and <code>Remove</code> just a wrapper agains another
+type, like a node. We rename <code>Swap</code> to <code>Pair</code> and <code>Remove</code> to <code>Node</code> accordingly.</p>
+<pre><code class="language-vim">%s/Swap/Pair/g
+%s/Remove/Node/g
+</code></pre>
+<p>This makes the code in <code>AnUnexpctedGift</code> (misspelled) more readable</p>
+<pre><code class="language-scala">type AnUnexpctedGift[T, N, X] = N match
+  case EOS =&gt; T match
+    case Node[x] =&gt; Node[X]
+  case OffBit =~: bs =&gt; T match
+    case Pair[l, r] =&gt; Pair[AnUnexpctedGift[l, bs, X], r]
+  case OnBit =~: bs =&gt; T match
+    case Pair[l, r] =&gt; Pair[l, AnUnexpctedGift[r, bs, X]]
+</code></pre>
+<p>From here we can recognize a tree structure, where <code>Pair</code>s are the disjunctions
+and <code>Node</code> are the leafs. In this case, <code>AnUnexpctedGift</code> (misspelled) just 
+traverses the tree using <code>N</code> as a path, where an <code>OffBit</code> means taking a turn
+left and <code>OnBit</code> a turn right, and once a <code>Node</code> leaf is found, replaces its
+inside value with <code>X</code>. Therefore, <code>AnUnexpctedGift</code> (misspelled) finds a node in
+the tree and replaces its element. From this deduction we decide to rename
+<code>AnUnexpctedGift</code> to <code>ReplaceNodeElement</code></p>
+<pre><code class="language-vim">%s/AnUnexpctedGift/ReplaceNodeElement/g
+</code></pre>
+<p>The reason I stressed that the trait we were talking about was the misspelled 
+<code>AnUnexpctedGift</code> was because there is a correctly spelled version of the trait.</p>
+<pre><code class="language-scala">type AnUnexpectedGift[T, N] = N match
+  case EOS =&gt; T match
+    case Node[x] =&gt; x
+  case OffBit =~: bs =&gt; T match
+    case Pair[l, r] =&gt; AnUnexpectedGift[l, bs]
+  case OnBit =~: bs =&gt; T match
+    case Pair[l, r] =&gt; AnUnexpectedGift[r, bs]
+</code></pre>
+<p>This one is another operation over a tree <code>T</code>, which takes a path <code>N</code> encoded in
+the same way as before, but now simply returns the element at the <code>Node</code> leaf,
+instead of modifying the tree. We'll therefore rename this trait to <code>GetNodeElement</code></p>
+<pre><code class="language-vim">%s/AnUnexpectedGift/GetNodeElement/g
+</code></pre>
+<p>There's one last trait using the <code>Node</code> and <code>Pair</code> traits in its body, <code>TrimMetadata</code>.</p>
+<pre><code class="language-scala">type TrimMetadata[X, N] = N match
+  case 0 =&gt; Node[X]
+  case S[n] =&gt; Pair[TrimMetadata[X, n], TrimMetadata[X, n]]
+</code></pre>
+<p>From a glance, we can see that <code>TrimMetadata</code> constructs a tree of height <code>N</code>,
+with each node having the type <code>X</code> as its default element. Therefore, we rename
+<code>TrimMetadata</code> to <code>NewTree</code>, to enphasize how it's a constructor</p>
+<pre><code class="language-scala">%s/TrimMetadata/NewTree/g
+</code></pre>
+<p>What an assortment of data structures we've ended up with. Lists, numbers, and
+even trees. <a href="https://theory.epfl.ch/osven/">Ola</a> would've been proud!</p>
+<h4 id="the-lake"><a class="header" href="#the-lake">The Lake</a></h4>
+<p>It's finally time to address the big elephant in the room. While jumping from
+one trait to the other, I've been avoiding the <code>Lk</code>-traits, traits whose names
+are of the form <code>L[ae]k[ae]</code>. These also seem to be the ones where interesting
+things are happening, since all we've done up until now is construct basic data
+structures.</p>
+<p>Although dauntingly big, the traits <code>Leke</code>, <code>Laka</code> and <code>Leka</code> just take a type
+parameter <code>X</code> and return a specific sequence of traits by matching it. For <code>Leka</code>
+and <code>Leke</code>, they have a default matching <code>case _</code> which calls <code>Leke</code> and <code>Laka</code>
+respectively if the type <code>X</code> wasn't matched previously. Therefore, we can see
+this traits as a long list of matchings which for a given traits return a sequence
+of traits, starting from <code>Leka</code>.</p>
+<p>Therefore, it seems that the only think keeping us from the flag is the <code>Lake</code>
+trait, since the trait we control, <code>Flag</code>, is only used inside <code>VictoryCondition</code>,
+which makes use of <code>Lake</code> and the previously decoded traits.</p>
+<pre><code class="language-scala">type VictoryCondition = Lake[Leka[Miaouss], Concat[Flag, CharNul =~: EOS], Leka[&quot;main&quot;] =~: EOS, NewTree[ZeroByte, 8], Leka] =:= (I[20] =~: EOS)
+</code></pre>
+<p>Before going into decoding <code>Lake</code> let's look at what information can we get on
+its parameters from its use in <code>VictoryCondition</code></p>
+<pre><code class="language-scala">type VictoryCondition = Lake[
+    Leka[Miaouss],
+    Concat[Flag, CharNul =~: EOS],
+    Leka[&quot;main&quot;] =~: EOS,
+    NewTree[ZeroByte, 8],
+    Leka
+] =:= (I[20] =~: EOS)
+</code></pre>
+<p>We see that <code>Lake</code> takes </p>
+<ol>
+<li>As its first argument, a sequence of traits, since that's what <code>Leka</code> returns</li>
+<li>As its second argument, a sequence of bytes (In our trait sequence 
+representation). We even know that starting value, which is the flag followed 
+by a char byte. We use <code>Concat</code> to concatenate both into one sequence.</li>
+<li>As its third argument, we have a sequence of sequences of traits. We must
+not be deceived by the <code>=~:</code> operator. <code>Leka[&quot;main&quot;]</code> returns a sequence of 
+traints, and by appending it an end of sequence, we convert it into a sequence of
+one sequence of taits</li>
+<li>As its fourth argument, a tree of height 8 filled with 0 bytes</li>
+<li>As its fifth argument, the trait <code>Leka</code>. This is a type &quot;function&quot; which takes
+a trait and gives a sequence of traits.</li>
+</ol>
+<p>In Scala non-type-system equivalent code, the signature of <code>Lake</code> would be</p>
+<pre><code class="language-scala">def Lake( 
+    a: List[Trait], 
+    b: List[Bytes], 
+    c: List[List[Trait]],
+    d: Tree[8],
+    e: Trait =&gt; List[Trait]
+    )
+</code></pre>
+<p>With this in mind, we rename the arguments of <code>Lake</code> to better reflect what types
+they hold and proceed to study the <code>Lake</code> trait.</p>
+<pre><code class="language-vim">%s/Kale/ListTraits/g
+%s/Ekal/ListBytes/g
+173,208s/Leka/ListListTraits/g
+%s/Akel/Tree/g
+%s/Keal/Func/g
+</code></pre>
+<p>Be careful when renaming <code>Leka</code> inside the body of <code>Lake</code>, since <code>Leka</code> is already
+a trait defined outside <code>Lake</code>.</p>
+<p>Thanks to these renames, the code in <code>Lake</code> has become much more readable much more readable</p>
+<pre><code class="language-scala">type Lake[ListTraits, ListBytes, ListListTraits, Tree, Func[_]] = ListTraits match
+  case EOS =&gt; (ListBytes, Tree)
+</code></pre>
+<p>We first match the first argument, and if it's an empty sequence, we output the
+second and fourth arguments. These are a sequence of bytes and a tree of height
+8 respectively</p>
+<pre><code class="language-scala">  case data1 =~: data2 =&gt; data1 match
+</code></pre>
+<p>If the first argument isn't an empty sequence, we take the first element an match
+it. From this point onward we start encountering some never seen before traits.
+These are all sealed traits which may have a type parameter, and that do nothing
+else with it than store it. </p>
+<p>Reading ahead in the code, we see that we always end up calling <code>Lake</code> again with
+some modified arguments, except with the last trait, <code>Truman</code>, where we simply
+return the <code>ListBytes</code></p>
+<pre><code class="language-scala">    case Truman =&gt; ListBytes
+</code></pre>
+<p>This seems to be an exit condition for <code>Lake</code>, so we'll rename it to <code>Exit</code></p>
+<pre><code class="language-vim">%s/Truman/Exit/g
+</code></pre>
+<p>We come back to the beginning of the match and proceed sequentially</p>
+<pre><code class="language-scala">    case Notification[x] =&gt; Lake[data2, x =~: ListBytes, ListListTraits, Tree, Func]
+</code></pre>
+<p>This trait takes the element it stored and puts it at the beginning of <code>ListBytes</code>.</p>
+<pre><code class="language-scala">    case Bts =&gt; ListBytes match
+      case smoothLike =~: butter =&gt; Lake[data2, butter, ListListTraits, Tree, Func]
+</code></pre>
+<p>This trait takes the first element in <code>ListBytes</code> and ignores it.</p>
+<p>These two cases seem to be doing push and pop operations on <code>ListBytes</code>. 
+Because of this, we rename <code>Notification</code> to <code>Push</code>, <code>Bts</code> to <code>Pop</code> and 
+<code>ListBytes</code> to <code>Stack</code></p>
+<pre><code class="language-vim">%s/ListBytes/Stack/g
+%s/Notification/Push/g
+%s/Bts/Pop/g
+</code></pre>
+<p>Thanks to these findings, we start to get a feel about what <code>Lake</code> is doing</p>
+<pre><code class="language-scala">    case GoogleBusiness =&gt; Stack match
+      case bing =~: sucks =~: lmao =&gt; Lake[data2, ByteAdd[sucks, bing] =~: lmao, ListListTraits, Tree, Funk]
+</code></pre>
+<p>This trait takes the next two elements of <code>Stack</code>, <code>bing</code> and <code>sucks</code>, adds them
+together and puts them back in the <code>Stack</code> on top of the rest of the elements 
+(<code>lmao</code>). Therefore, <code>GoogleBusiness</code> seems to be an add <strong>instruction</strong>, so
+we rename it as such.</p>
+<pre><code class="language-vim">%s/GoogleBusiness/AddInstr/g
+</code></pre>
+<p>We also find out that <code>Stack</code> is a sequence of bytes. This we could have deduced
+from the call to <code>Lake</code> in <code>VictoryCondition</code>, but here we see that these values are
+being treated as integers, which is some extra bit of information we didn't have</p>
+<pre><code class="language-scala">    case MeUwU =&gt; Stack match
+      case owo =~: qwq =~: uwu =&gt; Lake[data2, ByteSub[qwq, owo] =~: uwu, ListListTraits, Tree, Func]
+    case CryptoBeLike =&gt; Stack match
+      case math =~: too =~: hard =&gt; Lake[data2, Xor[too, math] =~: hard, ListListTraits, Tree, Func]
+</code></pre>
+<p><code>MeUwU</code> and <code>CryptoBeLike</code> are almost equivalent to the previous <code>GoogleBusiness</code>, 
+but now performing a subtraction and xor instead of addition, so we rename them 
+to <code>SubInstr</code> and <code>XorInstr</code></p>
+<pre><code class="language-vim">%s/MeUwU/SubInstr/g
+%s/CryptoBeLike/XorInstr/g
+</code></pre>
+<pre><code class="language-scala">    case SadeYouWereOnSilent[x] =&gt; Lake[Func[x], Stack, data2 =~: ListListTraits, Tree, Func]
+</code></pre>
+<p>We finally see the use of the other parameters. With this trait, we take its type
+parameter and use it to replace its first argument with whatever list of traits
+the parameter <code>Func</code> gives when applied to <code>x</code>. Also, the rest of traits which 
+going to be processed are saved in the third parameter.</p>
+<p>We notice how the traits we've been processing until know all seem to be instructions
+on what to do within <code>Lake</code>. We therefore rename <code>ListTraits</code> to <code>Instructions</code>
+and <code>ListListTraits</code> to <code>ListInstructions</code></p>
+<pre><code class="language-vim">%s/ListTraits/Instructions/g
+</code></pre>
+<p>We continue</p>
+<pre><code class="language-scala">    case Sadge[localsCount] =&gt; Lake[Func[localsCount], Stack, ListInstructions, Tree, Func]
+</code></pre>
+<p>This is pretty similar to <code>SadeYouWereOnSilent</code>, with the exception that it doesn't
+save the remaining instructions in <code>ListInstructions</code>. We start to see some kind
+of pattern here, but let's analyze the next trait before uncovering it</p>
+<pre><code class="language-scala">    case TRex[roar] =&gt; Stack match
+      case suchPredator =~: muchMonch =&gt; 
+        IfZero[
+          suchPredator,
+          Magick[Lake[Func[roar], muchMonch, ListInstructions, Tree, Func]]#trick,
+          Magick[Lake[data2, muchMonch, ListInstructions, Tree, Func]]#trick,
+        ]
+</code></pre>
+<p>For this trait, we take the top of the stack and it it's zero, we change the 
+instructions for whatever list of instructions <code>Func</code> gives us when given <code>TRex</code>'s
+typ paramter. If the top of the stack isn't zero, execution continues as normal.</p>
+<p>Notice the word execution. We have addition, subtraction and xor instructions, 
+and now we've found a branching instruction. We can easily see now that 
+<code>SadeYouWereOnSilent</code> and <code>Sadge</code> are <code>Call</code> and <code>Jump</code> instructinos respectively,
+<code>TRex</code> a <code>JumpIfZero</code> instruction, and reading ahead, we find <code>Cringe</code>.</p>
+<pre><code class="language-scala">    case Cringe =&gt; ListInstructions match
+      case bigL =~: plusRatio =&gt; Lake[bigL, Stack, plusRatio, Tree, Func]
+</code></pre>
+<p>Which implements the final control flow operation we need to make <code>Lake</code> into a
+virtual machine, the <code>Return</code> instruction.</p>
+<p>Therefore, with this new findings we can guess that <code>ListInstructions</code> are just
+the stack frames of the virtual machine, and that <code>Func</code> gives us a mapping
+between keywords and instructions, almost like a jump table.</p>
+<p>With these new findings, we have much renaming to do</p>
+<pre><code class="language-vim">%s/ListInstructions/Frames/g
+%s/SadeYouWereOnSilent/Call/g
+%s/Sadge/Jump/g
+%s/TRex/JumpIfZero/g
+%s/Cringe/Return/g
+</code></pre>
+<pre><code class="language-scala">    case StillWaiting =&gt; Stack match
+      case comeOn =~: waitFaster =&gt; Lake[data2, GetNodeElement[Tree, comeOn] =~: waitFaster, Frames, Tree, Func]
+    case OmwToBuyCarrots =&gt; Stack match
+      case miam =~: withHummus =~: andCucumber =&gt; Lake[data2, andCucumber, Frames, ReplaceNodeElement[Tree, miam, withHummus], Func]
+</code></pre>
+<p><code>StillWaiting</code> and <code>OmwToBuyCarrots</code> are the tree operations we were missing, which
+respectively put a node element on the stack and replace a node element with an 
+value in the stack. In the context of a virtual machine, we see that our <code>Tree</code>
+is doing the job of the main memory, and that <code>StillWaiting</code> and <code>OmwToBuyCarrots</code>
+are <code>Load</code> and <code>Store</code> operations</p>
+<pre><code class="language-vim">%s/StillWaiting/Load/g
+%s/OmwToBuyCarrots/Store/g
+173,208s/Tree/Memory/g
+</code></pre>
+<p>Be careful again when renaming <code>Tree</code> to not rename as well <code>NewTree</code> into 
+<code>NewMemory</code>, although the change in name wouldn't be too bad.</p>
+<pre><code class="language-scala">    case Win =&gt; Stack match
+      case flag =~: checker  =&gt; Lake[data2, flag =~: flag =~: checker, Frames, Memory, Func]
+</code></pre>
+<p>The <code>Win</code> trait instructs to double the head of the stack, so we rename it to 
+<code>DoubleHead</code></p>
+<pre><code class="language-vim">%s/Win/DoubleHead/g
+</code></pre>
+<pre><code class="language-scala">    case Jessie =&gt; Stack match
+      case                     aaaaaaa =~: aaaaaa =~: aaaaa =&gt; Lake[data2, aaaaaa =~: aaaaaaa =~: aaaaa, Frames, Memory, Func]
+    case James =&gt; Stack match
+      case         aaaaaaa =~: aaaaaa =~: aaaaaaaa =~: aaaaa =&gt; Lake[data2, aaaaaaaa =~: aaaaaaa =~: aaaaaa =~: aaaaa, Frames, Memory, Func]
+    case Miaouss =&gt; Stack match
+      case aaaaaaa =~: aaaaaa =~: aaaaaaaa =~: aaaa =~: aaaaa =&gt; Lake[data2, aaaa =~: aaaaaaa =~: aaaaaa =~: aaaaaaaa =~: aaaaa, Frames, Memory, Func]
+</code></pre>
+<p>The following three traits, named after Team Rocket celebrities, do some juggling
+in the stack by bringing to the top the second, third and fourth elements respectively</p>
+<p>We rename them to proper names</p>
+<pre><code class="language-vim">%s/Jessie/SecondToTop/g
+%s/James/ThirdToTop/g
+%s/Miaouss/FourthToTop/g
+</code></pre>
+<pre><code class="language-scala">    case Exit =&gt; Stack
+</code></pre>
+<p>And we're finally on the last branch of the match, with the exit condition</p>
+<p>Since we want the evaluation of <code>Lake</code> to be <code>I[20] =~: EOS</code>, we can already
+see that the only way we'll get there is by triggering an <code>Exit</code> instruction.</p>
+<p>We know just have to figure out how to get there.</p>
+<p>Yes, that's right. You're revving again. Let's dive into the L[ae]k[ae]</p>
+<h3 id="part-two-the-other-rev"><a class="header" href="#part-two-the-other-rev">Part two: The other rev</a></h3>
+<p>We've kind of ignored the L[ae]k[ae] functions up until now, but after the work
+we've done in <code>Lake</code>, the previously gibberish sequences of traits have been 
+decoded to almost readable sequences of instructions, the assembly of our <code>Lake</code> 
+virtual machine.</p>
+<p>First, let's put <code>Leka</code>, <code>Leke</code> and <code>Laka</code> one after the other, and
+format them so each instruction appears in one line</p>
+<pre><code class="language-vim">'&lt;,'&gt;s/\(=&gt;\|=\~:\)/\1\r/g
+</code></pre>
+<p>We fix any indentation complaints the compiler may give us, and continue with
+our analysis.</p>
+<p>Now, we start decoding these functions by their appearance in <code>VictoryCondition</code></p>
+<pre><code class="language-scala">type VictoryCondition = Lake[
+    Leka[FourthToTop],
+    Concat[Flag, CharNul =~: EOS],
+    Leka[&quot;main&quot;] =~: EOS,
+    NewTree[ZeroByte, 8],
+    Leka
+] =:= (I[20] =~: EOS)
+</code></pre>
+<p>Therefore, we start with <code>FourthToTop</code></p>
+<h4 id="the-first-check"><a class="header" href="#the-first-check">The first check</a></h4>
+<p>The instructions returned by <code>FourthToTop</code> are the following</p>
+<pre><code class="language-scala">  case FourthToTop =&gt;
+    Push[I[42]] =~:
+    Call[Pop] =~:
+    Push[I[0]] =~:
+    Push[I[42]] =~:
+    Call[SecondToTop] =~:
+    Push[I[8]] =~:
+    SubInstr =~:
+    JumpIfZero[&quot;stacktrace&quot;] =~:
+    Push[I[0]] =~:
+    Exit =~:
+    EOS
+</code></pre>
+<p>We can start simulating the state of the stack and see how each instruction 
+modifies it</p>
+<pre><code class="language-scala">  case FourthToTop =&gt; // f l a g 0
+    Push[I[42]] =~:      // 42 f l a g 0
+    Call[Pop] =~:        // ?
+</code></pre>
+<p>We run into a call to <code>Pop</code>, which we don't know how it affects the stack, so 
+before proceeding with <code>FourthToTop</code>, we take a look at <code>Pop</code></p>
+<pre><code class="language-scala">  case Pop =&gt;             // a b ...
+    SecondToTop =~:       // b a ...
+    DoubleHead =~:        // b b a ...
+    JumpIfZero[CharL] =~: // b a ...
+    SecondToTop =~:       // a b ...
+    DoubleHead =~:        // a a b ...
+    ThirdToTop =~:        // b a a ...
+    SecondToTop =~:       // a b a ...
+    Store =~:             // a ...     [*a = b]
+    Push[I[1]] =~:        // 1 a ...
+    AddInstr =~:          // (a+1) ...
+    Jump[Pop] =~:         // (a+1) c ..
+    EOS
+</code></pre>
+<p><code>Pop</code> does three things:</p>
+<ol>
+<li>It keeps a counter in <code>a</code></li>
+<li>If <code>b</code> isn't 0, it stores it in memory address a</li>
+<li>It increments <code>a</code> and calls <code>Pop</code> again</li>
+</ol>
+<p>Since <code>b</code> was consumed, for this next call of <code>Pop</code>, <code>b</code> is taken to be the next 
+element in the stack. From this we see that <code>Pop</code> performs a scan of the stack,
+storing its elements in memory consecutively, starting at address <code>a</code>, until it
+finds a <code>0</code> in the stack, after which it jumps to <code>CharL</code>.</p>
+<pre><code class="language-scala">  case CharL =&gt;     // 0 a ... // Since b = 0
+    SecondToTop =~: // a 0 ...
+    Store =~:       // ...     [*a = 0]
+    Return =~:
+    EOS
+</code></pre>
+<p>In <code>CharL</code> we simply store the <code>0</code> in memory and return from <code>Pop</code></p>
+<p>Therefore, we've seen that <code>Pop</code> loads into memory the contents in the stack, 
+starting at the position given by the head of the stack. It functions kind of 
+like a <code>loadstr</code> function</p>
+<p>Some pseudocode for it would be</p>
+<pre><code class="language-scala">def loadstr(a: Byte, stack: List[Byte]) =
+    for (b &lt;- stack) do
+        Memory(a) = b
+        if (b == 0)
+            return
+        a += 1
+</code></pre>
+<p>Now we can come back to <code>FourthToTop</code> and continue with our analysis</p>
+<pre><code class="language-scala">  case FourthToTop =&gt;     // f l a g 0
+    Push[I[42]] =~:       // 42 f l a g 0
+    Call[Pop] =~:         //               [loadstr(42, f l a g 0)]
+    Push[I[0]] =~:        // 0
+    Push[I[42]] =~:       // 42
+    Call[SecondToTop] =~: // ?
+</code></pre>
+<p>Now we perform a second call, this time to <code>SecondToTop</code> which we analyze like
+with <code>Pop</code></p>
+<pre><code class="language-scala">  case SecondToTop =&gt;                    // a b ...
+    DoubleHead =~:                       // a a b ...
+    Load =~:                             // *a a b ...
+    JumpIfZero[&quot;recurse-trampoline&quot;] =~: // a b ...
+    Push[I[1]] =~:                       // 1 a b ...
+    AddInstr =~:                         // (a+1) b ...
+    SecondToTop =~:                      // b (a+1) ...
+    Push[I[1]] =~:                       // 1 b (a+1) ...
+    AddInstr =~:                         // (b+1) (a+1) ...
+    SecondToTop =~:                      // (a+1) (b+1) ...
+    Jump[SecondToTop] =~:                // (a+1) (b+1) ...
+    EOS
+</code></pre>
+<p>From what we can see, <code>SecondToTop</code> scans memory, starting from <code>a</code>, and checks
+if it stores a 0. If it doesn't, it moves to the next byte in memory, and
+increases the value in <code>b</code> by 1. If the value in memory is 0, it jumps to 
+`&quot;recurse-trampoline&quot;</p>
+<pre><code class="language-scala">  case &quot;recurse-trampoline&quot; =&gt; // a b ...
+    Pop =~:                    // b ...
+    Return =~:
+    EOS
+</code></pre>
+<p>This just gets rid of the memory address and returns the counting value we had
+in the second position.</p>
+<p>Since <code>SecondToTop</code> is called with <code>a=42</code> and <code>b=0</code>, what this ends up doing is
+computing the length of the string we just loaded with <code>Pop</code> (<code>loadstr</code>). It 
+works like <code>strlen</code> in C</p>
+<p>In pseudocode</p>
+<pre><code class="language-scala">def strlen(a: Byte, b: Byte) =
+    while(Memory(a) != 0)
+        a += 1
+        b += 1
+    return b
+</code></pre>
+<p>With this, we have enough information to finish decoding <code>FourthToTop</code></p>
+<pre><code class="language-scala">  case FourthToTop =&gt;            // f l a g 0
+    Push[I[42]] =~:              // 42 f l a g 0
+    Call[Pop] =~:                //               [loadstr(42, f l a g 0)]
+    Push[I[0]] =~:               // 0
+    Push[I[42]] =~:              // 42 0 
+    Call[SecondToTop] =~:        // len           [len = strlen(42,0)]
+    Push[I[8]] =~:               // 8 len
+    SubInstr =~:                 // (len-8)
+    JumpIfZero[&quot;stacktrace&quot;] =~: //
+    Push[I[0]] =~:               // 0
+    Exit =~:
+    EOS
+</code></pre>
+<p>After getting the length of the flag, we check whether the length of the flag is
+8. If it isn't, we end execution with a 0 in the stack. Since we've seen that we
+need to exit with a 20, exiting with a 0 is a failure, so we now know the length
+of the flag must be 8</p>
+<h4 id="the-second-check"><a class="header" href="#the-second-check">The second check</a></h4>
+<p>If the length of the flag is correct, we jump to <code>&quot;stacktrace&quot;</code></p>
+<pre><code class="language-scala">  case &quot;stacktrace&quot; =&gt;
+    Push[I[0]] =~:
+    Push[I[42]] =~:
+    Call[&quot;strlen&quot;] =~:
+    Push[I[13]] =~:
+    SubInstr =~:
+    JumpIfZero[&quot;exception-landing-pad&quot;] =~:
+    Push[I[0]] =~:
+    Exit =~:
+    EOS
+</code></pre>
+<p>As we did before, we start with the analysis until we reach a call</p>
+<pre><code class="language-scala">  case &quot;stacktrace&quot; =&gt; //
+    Push[I[0]] =~:     // 0
+    Push[I[42]] =~:    // 42 0
+    Call[&quot;strlen&quot;] =~: // ?
+</code></pre>
+<p>And now we have a look at <code>&quot;strleǹ&quot;</code>, not to be confused with <code>Pop</code> which we 
+previously saw worked like a <code>strlen</code> function. Totally different</p>
+<pre><code class="language-scala">  case &quot;strlen&quot; =&gt;           // a b ...
+    DoubleHead =~:           // a a b ...
+    Load =~:                 // *a a b ...
+    DoubleHead =~:           // *a *a a b ...
+    JumpIfZero[SubInstr] =~: // *a a b ...
+    ThirdToTop =~:           // b *a a ...
+    XorInstr =~:             // (*a^b) a ...
+    SecondToTop =~:          // a (*a^b)
+    Push[I[1]] =~:           // 1 a (*a^b) 
+    AddInstr =~:             // (a+1) (*a^b)
+    Jump[&quot;strlen&quot;] =~:       // (a+1) (*a^b)
+    EOS
+</code></pre>
+<p>This function iterates over the values in memory, starting from <code>a</code>, and if
+they are not 0, XORs them with <code>b</code> and continues to the next value in memory.
+If the value is 0, it jumps to <code>SubInstr</code> </p>
+<pre><code class="language-scala">  case SubInstr =&gt; // *a a b ...
+    Pop =~:        // a b ...
+    Pop =~:        // b ...
+    Return =~:
+    EOS
+</code></pre>
+<p>This one leaves only the accumulated XORs of the sequence in the stack and 
+returns.</p>
+<p>Therefore, we see that <code>&quot;strlen&quot;</code> xors all the elements in memory until it
+encounters a 0, at which point it returns. It works like a <code>xorstr</code> function</p>
+<pre><code class="language-scala">def xorstr(a: Byte, b: Byte) =
+    while(Memory(a) != 0)
+        b = b ^ Memory(a)
+        a += 1
+    return b
+</code></pre>
+<p>Therefore, continuing the analysis of <code>SecondToTop</code>, we can finish the analysis</p>
+<pre><code class="language-scala">  case &quot;stacktrace&quot; =&gt;                      //
+    Push[I[0]] =~:                          // 0
+    Push[I[42]] =~:                         // 42 0
+    Call[&quot;strlen&quot;] =~:                      // xor     [xor = xorstr(42,0)]
+    Push[I[13]] =~:                         // 13 xor
+    SubInstr =~:                            // (xor-13)
+    JumpIfZero[&quot;exception-landing-pad&quot;] =~: // 
+    Push[I[0]] =~:                          // 0
+    Exit =~:
+    EOS
+</code></pre>
+<p>Afterwards we check if the xor of the flag is 13. If it isn't we fail as we did
+before, which means gives us our second piece of information about the flag.</p>
+<p>If the xor of the flag is indeed 13, we continue to <code>&quot;exception-landing-pad&quot;</code></p>
+<h4 id="the-third-check"><a class="header" href="#the-third-check">The third check</a></h4>
+<p>In <code>&quot;exception-landing-pad&quot;</code> we encounter the following code</p>
+<pre><code class="language-scala">  case &quot;exception-landing-pad&quot; =&gt;
+    Push[I[8]] =~:
+    Push[I[42]] =~:
+    Call[ThirdToTop] =~:
+    Push[I[69]] =~:
+    Push[I[42]] =~:
+    Push[I[7]] =~:
+    Call[&quot;main&quot;] =~:
+    Push[I[0]] =~:
+    Push[I[40]] =~:
+    Push[I[32]] =~:
+    Push[I[24]] =~:
+    Push[I[29]] =~:
+    Push[I[48]] =~:
+    Push[I[65]] =~:
+    Push[I[49]] =~:
+    Push[I[40]] =~:
+    Push[I[111]] =~:
+    Call[Pop] =~:
+    Push[I[69]] =~:
+    Push[I[111]] =~:
+    Push[I[7]] =~:
+    Call[Load] =~:
+    Push[I[1]] =~:
+    SubInstr =~:
+    JumpIfZero[OffBit] =~:
+    Push[I[0]] =~:
+    Exit =~:
+    EOS
+</code></pre>
+<p>This one is longer than the others, but it doesn't take long to find a call to
+another function we have to stop to analyze</p>
+<pre><code class="language-scala">  case &quot;exception-landing-pad&quot; =&gt; // 
+    Push[I[8]] =~:                // 8
+    Push[I[42]] =~:               // 42 8
+    Call[ThirdToTop] =~:          // ?
+</code></pre>
+<p>In the instructions for <code>ThirdToTop</code> we find the following</p>
+<pre><code class="language-scala">  case ThirdToTop =&gt; // a b ...
+    DoubleHead =~:   // a a b ...
+    ThirdToTop =~:   // b a a ...
+    AddInstr =~:     // (a+b) a ...
+    SecondToTop =~:  // a (a+b) ...
+    Load =~:         // *a (a+b) ...
+    SecondToTop =~:  // (a+b) *a ...
+    Store =~:        // ...      [a[b] = *a]
+    Return =~:
+    EOS
+</code></pre>
+<p>Which basically just copies whatever value was in memory at <code>a</code> to the 
+address <code>a+b</code> and returns nothing. Since in our case, it's being called
+with 42 and 8 as <code>a</code> and <code>b</code>, it's replacing the 0 delimiter in memory
+with the first letter of the flag</p>
+<pre><code class="language-scala">  case &quot;exception-landing-pad&quot; =&gt; // 
+    Push[I[8]] =~:                // 8
+    Push[I[42]] =~:               // 42 8
+    Call[ThirdToTop] =~:          //        [*50 = *42]
+    Push[I[69]] =~:               // 69
+    Push[I[42]] =~:               // 42 69
+    Push[I[7]] =~:                // 7 42 69
+    Call[&quot;main&quot;] =~:              // ?
+</code></pre>
+<p>Now we perform a call to <code>&quot;main&quot;</code>, which is another big function</p>
+<pre><code class="language-scala">  case &quot;main&quot; =&gt;
+    DoubleHead =~:
+    JumpIfZero[CharE] =~:
+    ThirdToTop =~:
+    DoubleHead =~:
+    FourthToTop =~:
+    DoubleHead =~:
+    ThirdToTop =~:
+    SecondToTop =~:
+    Call[CharF] =~:
+    Push[I[1]] =~:
+    AddInstr =~:
+    SecondToTop =~:
+    Push[I[1]] =~:
+    AddInstr =~:
+    ThirdToTop =~:
+    Push[I[1]] =~:
+    SubInstr =~:
+    ThirdToTop =~:
+    SecondToTop =~:
+    Jump[&quot;main&quot;] =~:
+    EOS
+</code></pre>
+<p>We analyze <code>&quot;main&quot;</code> until we find a call to <code>CharF</code></p>
+<pre><code class="language-scala">  case &quot;main&quot; =&gt;          // a b c ...
+    DoubleHead =~:        // a a b c ...
+    JumpIfZero[CharE] =~: // a b c ...
+    ThirdToTop =~:        // c a b ...
+    DoubleHead =~:        // c c a b ...
+    FourthToTop =~:       // b c c a ...
+    DoubleHead =~:        // b b c c a ...
+    ThirdToTop =~:        // c b b c a ...
+    SecondToTop =~:       // b c b c a ...
+    Call[CharF] =~:       // ?
+</code></pre>
+<p>In <code>CharF</code>, we proceed to analyze as we've done so far</p>
+<pre><code class="language-scala">  case CharF =&gt;     // a b ...
+    DoubleHead =~:  // a a b ...
+    Push[I[1]] =~:  // 1 a a b ...
+    AddInstr =~:    // (a+1) a b ...
+    DoubleHead =~:  // (a+1) (a+1) a b ...
+    Push[I[1]] =~:  // 1 (a+1) (a+1) a b ...
+    AddInstr =~:    // (a+2) (a+1) a b ...
+    Load =~:        // *(a+2) (a+1) a b ...
+    SecondToTop =~: // (a+1) *(a+2) a b ...
+    Load =~:        // *(a+1) *(a+2) a b ...
+    ThirdToTop =~:  // a *(a+1) *(a+2) b ...
+    Load =~:        // *a *(a+1) *(a+2) b ...
+    AddInstr =~:    // (*a+*(a+1)) *(a+2) b ...
+    AddInstr =~:    // (*a+*(a+1)+*(a+2)) b ...
+    SecondToTop =~: // b *a+*(a+1)+*(a+2) ...
+    Store =~:       // ...                     [*b = a[0] + a[1] + a[2]]
+    Return =~:
+    EOS
+</code></pre>
+<p>We see that the whole purpose of this operation is to compute the sum of
+the three successive values in memory starting at <code>a</code>, and we store them
+at position <code>b</code>.</p>
+<pre><code class="language-scala">  case &quot;main&quot; =&gt;          // a b c ...
+    DoubleHead =~:        // a a b c ...
+    JumpIfZero[CharE] =~: // a b c ...
+    ThirdToTop =~:        // c a b ...
+    DoubleHead =~:        // c c a b ...
+    FourthToTop =~:       // b c c a ...
+    DoubleHead =~:        // b b c c a ...
+    ThirdToTop =~:        // c b b c a ...
+    SecondToTop =~:       // b c b c a ...
+    Call[CharF] =~:       // b c a ...             [*c = b[0] + b[1] + b[2]]
+    Push[I[1]] =~:        // 1 b c a ...
+    AddInstr =~:          // (b+1) c a ...
+    SecondToTop =~:       // c (b+1) a ...
+    Push[I[1]] =~:        // 1 c (b+1) a ...
+    AddInstr =~:          // (c+1) (b+1) a ...
+    ThirdToTop =~:        // a (c+1) (b+1) ...
+    Push[I[1]] =~:        // 1 a (c+1) (b+1) ...
+    SubInstr =~:          // (a-1) (c+1) (b+1) ...
+    ThirdToTop =~:        // (b+1) (a-1) (c+1) ... 
+    SecondToTop =~:       // (a-1) (b+1) (c+1) ... 
+    Jump[&quot;main&quot;] =~:      // (a-1) (b+1) (c+1) ...
+    EOS
+</code></pre>
+<p>We see that <code>&quot;main&quot;</code> stores the sums of the sub-sequence of 3 elements
+starting at <code>b</code> in <code>c</code>, and moves on to the next element. The iteration stops when the
+counter in <code>a</code> reaches 0, at which point we jump to <code>CharE</code></p>
+<pre><code class="language-scala">  case CharE =&gt; // a b c ...
+    Pop =~:     // b c ...
+    Pop =~:     // c ...
+    Pop =~:     // ...
+    Return =~:
+    EOS
+</code></pre>
+<p>Which just gets rid of the values of <code>a</code>, <code>b</code> and <code>c</code> and returns from <code>&quot;main&quot;</code>.</p>
+<p>In short, <code>&quot;main&quot;</code> stores in <code>c</code> the sums of the first <code>a</code> sums of subsequences
+of length 3 in <code>b</code>. In pseudocode, this would be</p>
+<pre><code class="language-scala">def sumOfThree(b: Byte, c: Byte) =
+    Memory(c) = Memory(b) + Memory(b+1) + Memory(b+2)
+def sumsOfThree(a: Byte, b: Byte, c: Byte) =
+    while(a != 0)
+        sumOfThree(b,c)
+        b+=1
+        c+=1
+        a-=1
+</code></pre>
+<p>Here <code>CharF</code> corresponds to <code>sumOfThree(b,c)</code> and <code>&quot;main&quot;</code> to <code>sumsOfThree(a,b,c)</code></p>
+<pre><code class="language-scala">  case &quot;exception-landing-pad&quot; =&gt; // 
+    Push[I[8]] =~:       // 8
+    Push[I[42]] =~:      // 42 8
+    Call[ThirdToTop] =~: //                      [*50 = *42]
+    Push[I[69]] =~:      // 69
+    Push[I[42]] =~:      // 42 69
+    Push[I[7]] =~:       // 7 42 69
+    Call[&quot;main&quot;] =~:     //                      [sumsOfThree(7,42,69)]
+    Push[I[0]] =~:       // 0
+    Push[I[40]] =~:      // 40 0
+    Push[I[32]] =~:      // 32 40 0
+    Push[I[24]] =~:      // 24 32 40 0
+    Push[I[29]] =~:      // 29 24 32 40 0
+    Push[I[48]] =~:      // 48 29 24 32 40 0
+    Push[I[65]] =~:      // 65 48 29 24 32 40 0
+    Push[I[49]] =~:      // 49 65 48 29 24 32 40 0
+    Push[I[40]] =~:      // 40 49 65 48 29 24 32 40 0
+    Push[I[111]] =~:     // 111 49 65 48 29 24 32 40 0
+    Call[Pop] =~:        //                      [loadstr(111, 49 65 ... 40 0)]
+    Push[I[69]] =~:      // 69
+    Push[I[111]] =~:     // 111 69
+    Push[I[7]] =~:       // 7 111 69
+    Call[Load] =~:       // ?
+</code></pre>
+<p>We encounter a call to <code>Pop</code> again, which we've already seen loads the contents
+of the stack into memory until a 0 is found, at which point it's stored and the
+subroutine stops</p>
+<p>After loading the sequence <code>49 65 48 29 24 32 40 0</code> at position <code>111</code>, it calls
+<code>Load</code> with the <code>7</code>, <code>111</code> and <code>69</code> in the stack</p>
+<pre><code class="language-scala">  case Load =&gt;            // a b c ...
+    DoubleHead =~:        // a a b c ...
+    JumpIfZero[EOS] =~:   // a b c ...
+    ThirdToTop =~:        // c a b ... 
+    DoubleHead =~:        // c c a b ...
+    Load =~:              // *c c a b ...
+    FourthToTop =~:       // b *c c a ...
+    DoubleHead =~:        // b b *c c a ...
+    Load =~:              // *b b *c c a ...
+    ThirdToTop =~:        // *c *b b c a ...
+    SubInstr =~:          // (*c-*b) b c a ...
+    JumpIfZero[CharP] =~: // b c a ...
+    Pop =~:               // c a ...
+    Pop =~:               // a ...
+    Pop =~:               // ...
+    Push[I[0]] =~:        // 0
+    Return =~:
+    EOS
+</code></pre>
+<p><code>Load</code> first checks if <code>a</code> is 0, and if it isn't, checks whether the bytes at
+positions <code>b</code> and <code>c</code> have the same value in memory. If they aren't the same, 
+the function returns a 0.</p>
+<p>If <code>a</code> is 0, then we jump to <code>EOS</code>, where we return from <code>Load</code> with a 1 instead</p>
+<pre><code class="language-scala">  case EOS =&gt;      // a b c ...
+    Pop =~:        // b c ...
+    Pop =~:        // c ...
+    Pop =~:        // ...
+    Push[I[1]] =~: // 1
+    Return =~:
+    EOS
+</code></pre>
+<p>If the bytes in <code>c</code> and <code>b</code> hold the same value in memory, then we jump to 
+<code>CharP</code></p>
+<pre><code class="language-scala">  case CharP =&gt;     // b c a
+    Push[I[1]] =~:  // 1 b c a
+    AddInstr =~:    // (b+1) c a
+    SecondToTop =~: // c (b+1) a
+    Push[I[1]] =~:  // 1 c (b+1) a 
+    AddInstr =~:    // (c+1) (b+1) a 
+    ThirdToTop =~:  // a (c+1) (b+1)
+    Push[I[1]] =~:  // 1 a (c+1) (b+1)
+    SubInstr =~:    // (a-1) (c+1) (b+1)
+    Jump[Load] =~:  // (a-1) (c+1) (b+1)
+    EOS
+</code></pre>
+<p>In <code>CharP</code> we increment <code>b</code> and <code>c</code> by one and decrement the counting value <code>a</code>
+by 1.</p>
+<p>It's easy to see now that <code>Load</code> is performing a string comparison, although it
+switches around the address variables over each iteration, but this has no 
+effect in the comparison. A pseudocode version of <code>Load</code> would be a function 
+<code>strncmp</code> like the following</p>
+<pre><code class="language-scala">def strncmp(a: Byte, b: Byte, c: Byte) =
+    while(a != 0)
+        if (Memory(a) != Memory(b))
+            return 0
+        b += 1
+        c += 1
+        swap(a,b) // This has no effect over the output
+        a -= 1
+    return 1
+</code></pre>
+<p>Thanks to this, we can finally completely analyze the behaviour of 
+<code>&quot;exception-landing-pad&quot;</code></p>
+<pre><code class="language-scala">  case &quot;exception-landing-pad&quot; =&gt; // 
+    Push[I[8]] =~:         // 8
+    Push[I[42]] =~:        // 42 8
+    Call[ThirdToTop] =~:   //                     [*50 = *42]
+    Push[I[69]] =~:        // 69
+    Push[I[42]] =~:        // 42 69
+    Push[I[7]] =~:         // 7 42 69
+    Call[&quot;main&quot;] =~:       //                     [sumsOfThree(7,42,69)]
+    Push[I[0]] =~:         // 0
+    Push[I[40]] =~:        // 40 0
+    Push[I[32]] =~:        // 32 40 0
+    Push[I[24]] =~:        // 24 32 40 0
+    Push[I[29]] =~:        // 29 24 32 40 0
+    Push[I[48]] =~:        // 48 29 24 32 40 0
+    Push[I[65]] =~:        // 65 48 29 24 32 40 0
+    Push[I[49]] =~:        // 49 65 48 29 24 32 40 0
+    Push[I[40]] =~:        // 40 49 65 48 29 24 32 40 0
+    Push[I[111]] =~:       // 111 49 65 48 29 24 32 40 0
+    Call[Pop] =~:          //                     [loadstr(111, 49 65 ... 40 0)]
+    Push[I[69]] =~:        // 69
+    Push[I[111]] =~:       // 111 69
+    Push[I[7]] =~:         // 7 111 69
+    Call[Load] =~:         // res                 [res = strncmp(7,111,69)]
+    Push[I[1]] =~:         // 1 res
+    SubInstr =~:           // (res-1)
+    JumpIfZero[OffBit] =~: //
+    Push[I[0]] =~:         // 0
+    Exit =~:
+    EOS
+</code></pre>
+<p>And so, what <code>&quot;exception-landing-pad&quot;</code> does is check if the flag's sums of three
+consecutive elements are <code>49 65 48 29 24 32 40</code>. If this is true, then we jump
+to <code>OffBit</code></p>
+<pre><code class="language-scala">  case OffBit =&gt;    // 
+    Push[I[20]] =~: // 20
+    Exit =~:
+    EOS
+</code></pre>
+<p>Which ends the evaluation, returning a 20 and successfully compiling the program.</p>
+<h3 id="part-three-finding-the-solution"><a class="header" href="#part-three-finding-the-solution">Part three: Finding the solution</a></h3>
+<p>From our second rev, we've seen the conditions our flag has to meet to get our
+program to compile.</p>
+<p>Our flag is a sequence <code>x</code> such that</p>
+<ol>
+<li><code>len(x) == 8</code></li>
+<li><code>XOR(x) == 13</code></li>
+<li><code>x[i] + x[i+1] + x[i+2] == x[i]</code> where</li>
+</ol>
+<pre><code class="language-scala">SUMS = [49, 65, 48, 29, 24, 32, 40]
+</code></pre>
+<p>Therefore, we have </p>
+<pre><code>SUMS(0) = 49 = x(0) + x(1) + x(2)
+SUMS(1) = 65 =        x(1) + x(2) + x(3)
+SUMS(2) = 48 =               x(2) + x(3) + x(4)
+SUMS(3) = 29 =                      x(3) + x(4) + x(5)
+SUMS(4) = 24 =                             x(4) + x(5) + x(6)
+SUMS(5) = 32 =                                    x(5) + x(6) + x(7)
+SUMS(6) = 40 =                                           x(6) + x(7) + x(8)
+</code></pre>
+<p>Recall that we have <code>x(8) == x(0)</code>.
+The interesting is that, given <code>x(0)</code> and <code>x(1)</code> we can compute all successive 
+values, so in order to generate the flag, we can check for all possible values
+of <code>x(0)</code> and <code>x(1)</code>, generate the corresponding values of <code>x(i)</code> for i between
+2 and 8 with</p>
+<pre><code class="language-scala">x(i) = SUMS(i-2) - x(i-2) - x(i-1)
+</code></pre>
+<p>Afterwards, we must check that:</p>
+<ol>
+<li>All values are between 1 and 26</li>
+<li>The xor of all values from 1 to 7 is 13</li>
+<li><code>x(8)</code> is the same as <code>x(0)</code></li>
+</ol>
+<p>And with those conditions met, we've found a possible flag</p>
+<p>We write a script to search for the flag, and wait</p>
+<pre><code class="language-scala">val SUMS = List(49, 65, 48, 29, 24, 32, 40)
+val x = new Array[Int](9)
+for x0 &lt;- 1 to 26; x1 &lt;- 1 to 26 do
+    x(0) = x0
+    x(1) = x1
+    for i &lt;- 2 to 8 do
+        x(i) = SUMS(i-2) - x(i-2) - x(i-1)
+    if (x.reduce(_^_) == 13 &amp;&amp; x.forall(e=&gt;1&lt;=e&amp;&amp;e&lt;=26) &amp;&amp; x(0) == x(8))
+        println(x.take(8).map(_.toChar).mkString(&quot;&quot;))
+println(&quot;Done&quot;)
+</code></pre>
+<h3 id="the-fail"><a class="header" href="#the-fail">The fail</a></h3>
+<p>Now here comes the problem. When we run the previous script to find the solution,
+we get nothing</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+                            <a rel="next" href="https://juliapoo.github.io/misc/2022/09/27/social-engineering-to-solve-a-crypto-challenge.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+                    <a rel="next" href="https://juliapoo.github.io/misc/2022/09/27/social-engineering-to-solve-a-crypto-challenge.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </body>
+</html>
