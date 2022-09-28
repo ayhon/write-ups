@@ -82,7 +82,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">Lake CTF 2022</li><li class="chapter-item expanded "><a href="writeups/fun-type-system.html"><strong aria-hidden="true">1.</strong> fun type system</a></li><li class="chapter-item expanded "><a href="https://juliapoo.github.io/misc/2022/09/27/social-engineering-to-solve-a-crypto-challenge.html"><strong aria-hidden="true">2.</strong> Juliapoo's social engineering to solve crypto challenge</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">Lake CTF 2022</li><li class="chapter-item expanded "><a href="writeups/LakeCTF2022/fun-type-system/writeup.html"><strong aria-hidden="true">1.</strong> fun type system</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="writeups/LakeCTF2022/fun-type-system/part-1.html"><strong aria-hidden="true">1.1.</strong> Part 1: The first rev</a></li><li class="chapter-item expanded "><a href="writeups/LakeCTF2022/fun-type-system/part-2.html"><strong aria-hidden="true">1.2.</strong> Part 2: The second rev</a></li><li class="chapter-item expanded "><a href="writeups/LakeCTF2022/fun-type-system/part-3.html"><strong aria-hidden="true">1.3.</strong> Part 3: The solution</a></li><li class="chapter-item expanded "><a href="writeups/LakeCTF2022/fun-type-system/fail.html"><strong aria-hidden="true">1.4.</strong> The fail</a></li></ol></li><li class="chapter-item expanded "><a href="https://juliapoo.github.io/misc/2022/09/27/social-engineering-to-solve-a-crypto-challenge.html"><strong aria-hidden="true">2.</strong> Juliapoo's social engineering to solve crypto challenge</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -150,10 +150,10 @@ The answer is no. Fuck type systems, from now on I'm only using Lua or Python.</
 <h2 id="the-challenge"><a class="header" href="#the-challenge">The challenge</a></h2>
 <blockquote>
 <p>Just make the program compile! It shouldn't be that hard...</p>
-<p><a href="writeups/TODO">README.md</a></p>
-<p><a href="writeups/TODO">Main.scala</a></p>
-<p><a href="writeups/TODO">build.sbt</a></p>
-<p><a href="writeups/TODO">build.properties</a></p>
+<p><a href="writeups/LakeCTF2022/fun-type-system/TODO">README.md</a></p>
+<p><a href="writeups/LakeCTF2022/fun-type-system/TODO">Main.scala</a></p>
+<p><a href="writeups/LakeCTF2022/fun-type-system/TODO">build.sbt</a></p>
+<p><a href="writeups/LakeCTF2022/fun-type-system/TODO">build.properties</a></p>
 </blockquote>
 <h2 id="how-to-solve-the-challenge"><a class="header" href="#how-to-solve-the-challenge">How to solve the challenge</a></h2>
 <p>We're given a couple of build files, some instructions, and a <code>Main.scala</code> file
@@ -162,7 +162,7 @@ short CTF, pop culture and almost biblical references disguised as types in a
 regular Scala file.</p>
 <p>Our first step will be to make sense out of these names and try to understand
 just what is going on</p>
-<h3 id="part-one-the-rev"><a class="header" href="#part-one-the-rev">Part one: The rev</a></h3>
+<div style="break-before: page; page-break-before: always;"></div><h3 id="part-one-the-rev"><a class="header" href="#part-one-the-rev">Part one: The rev</a></h3>
 <h4 id="first-steps"><a class="header" href="#first-steps">First steps</a></h4>
 <p>The first thing you see when you open the file are some instructions about
 how to solve the challenge. </p>
@@ -850,7 +850,7 @@ in the stack by bringing to the top the second, third and fourth elements respec
 see that the only way we'll get there is by triggering an <code>Exit</code> instruction.</p>
 <p>We know just have to figure out how to get there.</p>
 <p>Yes, that's right. You're revving again. Let's dive into the L[ae]k[ae]</p>
-<h3 id="part-two-the-other-rev"><a class="header" href="#part-two-the-other-rev">Part two: The other rev</a></h3>
+<div style="break-before: page; page-break-before: always;"></div><h3 id="part-two-the-other-rev"><a class="header" href="#part-two-the-other-rev">Part two: The other rev</a></h3>
 <p>We've kind of ignored the L[ae]k[ae] functions up until now, but after the work
 we've done in <code>Lake</code>, the previously gibberish sequences of traits have been 
 decoded to almost readable sequences of instructions, the assembly of our <code>Lake</code> 
@@ -1366,7 +1366,7 @@ to <code>OffBit</code></p>
     EOS
 </code></pre>
 <p>Which ends the evaluation, returning a 20 and successfully compiling the program.</p>
-<h3 id="part-three-finding-the-solution"><a class="header" href="#part-three-finding-the-solution">Part three: Finding the solution</a></h3>
+<div style="break-before: page; page-break-before: always;"></div><h3 id="part-three-finding-the-solution"><a class="header" href="#part-three-finding-the-solution">Part three: Finding the solution</a></h3>
 <p>From our second rev, we've seen the conditions our flag has to meet to get our
 program to compile.</p>
 <p>Our flag is a sequence <code>x</code> such that</p>
@@ -1412,7 +1412,7 @@ for x0 &lt;- 1 to 26; x1 &lt;- 1 to 26 do
         println(x.take(8).map(_.toChar).mkString(&quot;&quot;))
 println(&quot;Done&quot;)
 </code></pre>
-<h3 id="the-fail"><a class="header" href="#the-fail">The fail</a></h3>
+<div style="break-before: page; page-break-before: always;"></div><h3 id="the-fail"><a class="header" href="#the-fail">The fail</a></h3>
 <p>Now here comes the problem. When we run the previous script to find the solution,
 we get nothing</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="juliapoos-social-engineering-to-solve-crypto-challenge"><a class="header" href="#juliapoos-social-engineering-to-solve-crypto-challenge">Juliapoo's social engineering to solve crypto challenge</a></h1>
