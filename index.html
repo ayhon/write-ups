@@ -81,7 +81,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">Lake CTF 2022</li><li class="chapter-item expanded "><a href="writeups/LakeCTF2022/fun-type-system/writeup.html" class="active"><strong aria-hidden="true">1.</strong> fun type system</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="writeups/LakeCTF2022/fun-type-system/part-1.html"><strong aria-hidden="true">1.1.</strong> Part 1: The first rev</a></li><li class="chapter-item expanded "><a href="writeups/LakeCTF2022/fun-type-system/part-2.html"><strong aria-hidden="true">1.2.</strong> Part 2: The second rev</a></li><li class="chapter-item expanded "><a href="writeups/LakeCTF2022/fun-type-system/part-3.html"><strong aria-hidden="true">1.3.</strong> Part 3: The solution</a></li><li class="chapter-item expanded "><a href="writeups/LakeCTF2022/fun-type-system/fail.html"><strong aria-hidden="true">1.4.</strong> The fail</a></li></ol></li><li class="chapter-item expanded "><a href="https://juliapoo.github.io/misc/2022/09/27/social-engineering-to-solve-a-crypto-challenge.html"><strong aria-hidden="true">2.</strong> Juliapoo's social engineering to solve crypto challenge</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">Lake CTF 2022</li><li class="chapter-item expanded "><a href="LakeCTF2022/fun-type-system/writeup.html" class="active"><strong aria-hidden="true">1.</strong> fun type system</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="LakeCTF2022/fun-type-system/part-1.html"><strong aria-hidden="true">1.1.</strong> Part 1: The first rev</a></li><li class="chapter-item expanded "><a href="LakeCTF2022/fun-type-system/part-2.html"><strong aria-hidden="true">1.2.</strong> Part 2: The second rev</a></li><li class="chapter-item expanded "><a href="LakeCTF2022/fun-type-system/part-3.html"><strong aria-hidden="true">1.3.</strong> Part 3: The solution</a></li><li class="chapter-item expanded "><a href="LakeCTF2022/fun-type-system/fail.html"><strong aria-hidden="true">1.4.</strong> The fail</a></li></ol></li><li class="chapter-item expanded "><a href="https://juliapoo.github.io/misc/2022/09/27/social-engineering-to-solve-a-crypto-challenge.html"><strong aria-hidden="true">2.</strong> Juliapoo's social engineering to solve crypto challenge</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -142,14 +142,32 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="fun-type-system"><a class="header" href="#fun-type-system">fun type system</a></h1>
+                        <h1 id="fun-type-system"><a class="header" href="#fun-type-system">Fun type system</a></h1>
+<p>To get if off my chest, I'll start by answering the question proposed by the title.
+The answer is no. Fuck type systems, from now on I'm only using Lua or Python.</p>
+<p>Now let's review this fun challenge which took me 9 hours to still fail <code>:)</code></p>
+<h2 id="the-challenge"><a class="header" href="#the-challenge">The challenge</a></h2>
+<blockquote>
+<p>Just make the program compile! It shouldn't be that hard...</p>
+<p><a href="TODO">README.md</a></p>
+<p><a href="TODO">Main.scala</a></p>
+<p><a href="TODO">build.sbt</a></p>
+<p><a href="TODO">build.properties</a></p>
+</blockquote>
+<h2 id="how-to-solve-the-challenge"><a class="header" href="#how-to-solve-the-challenge">How to solve the challenge</a></h2>
+<p>We're given a couple of build files, some instructions, and a <code>Main.scala</code> file
+which contains the main part of the challenge. Its contents show a mix of 
+short CTF, pop culture and almost biblical references disguised as types in a
+regular Scala file.</p>
+<p>Our first step will be to make sense out of these names and try to understand
+just what is going on</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
 
-                            <a rel="next" href="writeups/LakeCTF2022/fun-type-system/part-1.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="LakeCTF2022/fun-type-system/part-1.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -160,7 +178,7 @@
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
 
-                    <a rel="next" href="writeups/LakeCTF2022/fun-type-system/part-1.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="LakeCTF2022/fun-type-system/part-1.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
