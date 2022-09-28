@@ -1,0 +1,6 @@
+[book]
+authors = ["ayhon"]
+language = "en"
+multilingual = false
+src = "src"
+title = "Fun type system"
