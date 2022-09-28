@@ -142,52 +142,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h3 id="part-three-finding-the-solution"><a class="header" href="#part-three-finding-the-solution">Part three: Finding the solution</a></h3>
-<p>From our second rev, we've seen the conditions our flag has to meet to get our
-program to compile.</p>
-<p>Our flag is a sequence <code>x</code> such that</p>
-<ol>
-<li><code>len(x) == 8</code></li>
-<li><code>XOR(x) == 13</code></li>
-<li><code>x[i] + x[i+1] + x[i+2] == x[i]</code> where</li>
-</ol>
-<pre><code class="language-scala">SUMS = [49, 65, 48, 29, 24, 32, 40]
-</code></pre>
-<p>Therefore, we have </p>
-<pre><code>SUMS(0) = 49 = x(0) + x(1) + x(2)
-SUMS(1) = 65 =        x(1) + x(2) + x(3)
-SUMS(2) = 48 =               x(2) + x(3) + x(4)
-SUMS(3) = 29 =                      x(3) + x(4) + x(5)
-SUMS(4) = 24 =                             x(4) + x(5) + x(6)
-SUMS(5) = 32 =                                    x(5) + x(6) + x(7)
-SUMS(6) = 40 =                                           x(6) + x(7) + x(8)
-</code></pre>
-<p>Recall that we have <code>x(8) == x(0)</code>.
-The interesting is that, given <code>x(0)</code> and <code>x(1)</code> we can compute all successive 
-values, so in order to generate the flag, we can check for all possible values
-of <code>x(0)</code> and <code>x(1)</code>, generate the corresponding values of <code>x(i)</code> for i between
-2 and 8 with</p>
-<pre><code class="language-scala">x(i) = SUMS(i-2) - x(i-2) - x(i-1)
-</code></pre>
-<p>Afterwards, we must check that:</p>
-<ol>
-<li>All values are between 1 and 26</li>
-<li>The xor of all values from 1 to 7 is 13</li>
-<li><code>x(8)</code> is the same as <code>x(0)</code></li>
-</ol>
-<p>And with those conditions met, we've found a possible flag</p>
-<p>We write a script to search for the flag, and wait</p>
-<pre><code class="language-scala">val SUMS = List(49, 65, 48, 29, 24, 32, 40)
-val x = new Array[Int](9)
-for x0 &lt;- 1 to 26; x1 &lt;- 1 to 26 do
-    x(0) = x0
-    x(1) = x1
-    for i &lt;- 2 to 8 do
-        x(i) = SUMS(i-2) - x(i-2) - x(i-1)
-    if (x.reduce(_^_) == 13 &amp;&amp; x.forall(e=&gt;1&lt;=e&amp;&amp;e&lt;=26) &amp;&amp; x(0) == x(8))
-        println(x.take(8).map(_.toChar).mkString(&quot;&quot;))
-println(&quot;Done&quot;)
-</code></pre>
+                        <h1 id="part-3-the-solution"><a class="header" href="#part-3-the-solution">Part 3: The solution</a></h1>
 
                     </main>
 
