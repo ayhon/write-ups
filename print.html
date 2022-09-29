@@ -366,12 +366,14 @@ elements, where when the element of <code>X</code> is a <code>Sc</code>, it keep
 the same, but if its a <code>In</code>, then it flips the element of <code>Y</code>. It continues 
 processing all elements until it reaches the end of <code>X</code>, at which point it ends
 the sequence.</p>
-<p>Let's look at the outputs of <code>LeFeu</code> in a truth table
-| <code>X</code>  | <code>Y</code>  | <code>LeFeu[X,Y]</code> |
-| <code>Sc</code> | <code>Sc</code> | <code>Sc</code>         |
-| <code>Sc</code> | <code>In</code> | <code>In</code>         |
-| <code>In</code> | <code>Sc</code> | <code>In</code>         |
-| <code>In</code> | <code>In</code> | <code>Sc</code>         |</p>
+<p>Let's look at the outputs of <code>Levee</code> in a truth table</p>
+<div class="table-wrapper"><table><thead><tr><th><code>X</code></th><th><code>Y</code></th><th><code>LeFeu[X,Y]</code></th></tr></thead><tbody>
+<tr><td><code>Sc</code></td><td><code>Sc</code></td><td><code>Sc</code></td></tr>
+<tr><td><code>Sc</code></td><td><code>In</code></td><td><code>In</code></td></tr>
+<tr><td><code>In</code></td><td><code>Sc</code></td><td><code>In</code></td></tr>
+<tr><td><code>In</code></td><td><code>In</code></td><td><code>Sc</code></td></tr>
+</tbody></table>
+</div>
 <p>From here it's easy to see that <code>LeFeu</code> is the xor operation. </p>
 <pre><code class="language-vim">%s/LeFeu/Xor/g
 </code></pre>
@@ -444,21 +446,23 @@ doing nothing much, just a couple of control statements.</p>
       case OnBit =&gt; (OnBit, OnBit)
 </code></pre>
 <p>We can easily understand it better by building a truth table, like we did for <code>Xor</code>.
-For simplicity, let's represent <code>OffBit</code> with 0 and <code>OnBit</code> with 1
-| <code>X</code> | <code>Y</code> | <code>C</code> | <code>SelectSection[X,Y,C]</code> |
-|  0  |  0  |  0  |          0, 0          |
-|  0  |  0  |  1  |          1, 0          |
-|  0  |  1  |  0  |          1, 0          |
-|  0  |  1  |  1  |          0, 1          |
-|  1  |  0  |  0  |          1, 0          |
-|  1  |  0  |  1  |          0, 1          |
-|  1  |  1  |  0  |          0, 1          |
-|  1  |  1  |  1  |          1, 1          |</p>
+For simplicity, let's represent <code>OffBit</code> with 0 and <code>OnBit</code> with 1</p>
+<div class="table-wrapper"><table><thead><tr><th><code>X</code></th><th><code>Y</code></th><th><code>C</code></th><th><code>SelectSection[X,Y,C]</code></th></tr></thead><tbody>
+<tr><td>0</td><td>0</td><td>0</td><td>0, 0</td></tr>
+<tr><td>0</td><td>0</td><td>1</td><td>1, 0</td></tr>
+<tr><td>0</td><td>1</td><td>0</td><td>1, 0</td></tr>
+<tr><td>0</td><td>1</td><td>1</td><td>0, 1</td></tr>
+<tr><td>1</td><td>0</td><td>0</td><td>1, 0</td></tr>
+<tr><td>1</td><td>0</td><td>1</td><td>0, 1</td></tr>
+<tr><td>1</td><td>1</td><td>0</td><td>0, 1</td></tr>
+<tr><td>1</td><td>1</td><td>1</td><td>1, 1</td></tr>
+</tbody></table>
+</div>
 <p>It may be hard to see at first, but this corresponds to a binary addition with a
 carry, where the first bit out is the result of the operation, and the second 
 one is the overflow bit. It can also be seen as an output of a 2 bit integer, 
-which since it's little endian is read backwards. Therefore, `1 0 1 = 0 1&quot; Since 
-1 + 0 + the carry bit 1 = 2 = 0b10 = 0,1.</p>
+which since it's little endian is read backwards. Therefore, <code>1 0 1 == 0 1</code> since 
+1 + 0 + the carry bit 1 equals 2 = <code>0b10</code> = 0,1.</p>
 <p>You can make this connection by staring at the truth table long enough, but you
 can also look where <code>SelectSection</code> is being used to find some type parameter
 names which give it away much easier, in the previously named <code>CheckChecksum</code>
