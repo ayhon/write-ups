@@ -30,8 +30,10 @@ the same, but if its a `In`, then it flips the element of `Y`. It continues
 processing all elements until it reaches the end of `X`, at which point it ends
 the sequence.
 
-Let's look at the outputs of `LeFeu` in a truth table
+Let's look at the outputs of `Levee` in a truth table
+
 | `X`  | `Y`  | `LeFeu[X,Y]` |
+|------|------|--------------|
 | `Sc` | `Sc` | `Sc`         |
 | `Sc` | `In` | `In`         |
 | `In` | `Sc` | `In`         |
@@ -129,7 +131,9 @@ type SelectSection[X, Y, C] = X match
 ```
 We can easily understand it better by building a truth table, like we did for `Xor`.
 For simplicity, let's represent `OffBit` with 0 and `OnBit` with 1
+
 | `X` | `Y` | `C` | `SelectSection[X,Y,C]` |
+|-----|-----|-----|------------------------|
 |  0  |  0  |  0  |          0, 0          |
 |  0  |  0  |  1  |          1, 0          |
 |  0  |  1  |  0  |          1, 0          |
@@ -142,8 +146,8 @@ For simplicity, let's represent `OffBit` with 0 and `OnBit` with 1
 It may be hard to see at first, but this corresponds to a binary addition with a
 carry, where the first bit out is the result of the operation, and the second 
 one is the overflow bit. It can also be seen as an output of a 2 bit integer, 
-which since it's little endian is read backwards. Therefore, `1 0 1 = 0 1" Since 
-1 + 0 + the carry bit 1 = 2 = 0b10 = 0,1.
+which since it's little endian is read backwards. Therefore, `1 0 1 == 0 1` since 
+1 + 0 + the carry bit 1 equals 2 = `0b10` = 0,1.
 
 You can make this connection by staring at the truth table long enough, but you
 can also look where `SelectSection` is being used to find some type parameter
