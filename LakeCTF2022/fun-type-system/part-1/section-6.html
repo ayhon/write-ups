@@ -1,0 +1,414 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>The Lake - Fun type system</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../../../favicon.svg">
+        <link rel="shortcut icon" href="../../../favicon.png">
+        <link rel="stylesheet" href="../../../css/variables.css">
+        <link rel="stylesheet" href="../../../css/general.css">
+        <link rel="stylesheet" href="../../../css/chrome.css">
+        <link rel="stylesheet" href="../../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../../highlight.css">
+        <link rel="stylesheet" href="../../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">Lake CTF 2022</li><li class="chapter-item expanded "><a href="../../../LakeCTF2022/fun-type-system/statement.html"><strong aria-hidden="true">1.</strong> fun type system</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../../LakeCTF2022/fun-type-system/part-1/intro.html"><strong aria-hidden="true">1.1.</strong> Part 1: The first rev</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../../LakeCTF2022/fun-type-system/part-1/section-1.html"><strong aria-hidden="true">1.1.1.</strong> First steps</a></li><li class="chapter-item expanded "><a href="../../../LakeCTF2022/fun-type-system/part-1/section-2.html"><strong aria-hidden="true">1.1.2.</strong> Knocking down the easy ones first</a></li><li class="chapter-item expanded "><a href="../../../LakeCTF2022/fun-type-system/part-1/section-3.html"><strong aria-hidden="true">1.1.3.</strong> Functions on lists</a></li><li class="chapter-item expanded "><a href="../../../LakeCTF2022/fun-type-system/part-1/section-4.html"><strong aria-hidden="true">1.1.4.</strong> Finding the integers</a></li><li class="chapter-item expanded "><a href="../../../LakeCTF2022/fun-type-system/part-1/section-5.html"><strong aria-hidden="true">1.1.5.</strong> Wait, there's a tree?</a></li><li class="chapter-item expanded "><a href="../../../LakeCTF2022/fun-type-system/part-1/section-6.html" class="active"><strong aria-hidden="true">1.1.6.</strong> The Lake</a></li></ol></li><li class="chapter-item expanded "><a href="../../../LakeCTF2022/fun-type-system/interlude.html"><strong aria-hidden="true">1.2.</strong> Interlude: The deobfuscated code</a></li><li class="chapter-item expanded "><a href="../../../LakeCTF2022/fun-type-system/part-2/intro.html"><strong aria-hidden="true">1.3.</strong> Part 2: The second rev</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../../LakeCTF2022/fun-type-system/part-2/section-1.html"><strong aria-hidden="true">1.3.1.</strong> The first check</a></li><li class="chapter-item expanded "><a href="../../../LakeCTF2022/fun-type-system/part-2/section-2.html"><strong aria-hidden="true">1.3.2.</strong> The second check</a></li><li class="chapter-item expanded "><a href="../../../LakeCTF2022/fun-type-system/part-2/section-3.html"><strong aria-hidden="true">1.3.3.</strong> The third check</a></li></ol></li><li class="chapter-item expanded "><a href="../../../LakeCTF2022/fun-type-system/part-3/intro.html"><strong aria-hidden="true">1.4.</strong> Part 3: The solution</a></li></ol></li><li class="chapter-item expanded "><a href="../../../LakeCTF2022/others.html"><strong aria-hidden="true">2.</strong> ...</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Fun type system</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="the-lake"><a class="header" href="#the-lake">The Lake</a></h2>
+<p>It's finally time to address the big elephant in the room. While jumping from
+one trait to the other, I've been avoiding the <code>Lk</code>-traits, traits whose names
+are of the form <code>L[ae]k[ae]</code>. These also seem to be the ones where interesting
+things are happening, since all we've done up until now is construct basic data
+structures.</p>
+<p>Although dauntingly big, the traits <code>Leke</code>, <code>Laka</code> and <code>Leka</code> just take a type
+parameter <code>X</code> and return a specific sequence of traits by matching it. For <code>Leka</code>
+and <code>Leke</code>, they have a default matching <code>case _</code> which calls <code>Leke</code> and <code>Laka</code>
+respectively if the type <code>X</code> wasn't matched previously. Therefore, we can see
+this traits as a long list of matchings which for a given traits return a sequence
+of traits, starting from <code>Leka</code>.</p>
+<p>Therefore, it seems that the only think keeping us from the flag is the <code>Lake</code>
+trait, since the trait we control, <code>Flag</code>, is only used inside <code>VictoryCondition</code>,
+which makes use of <code>Lake</code> and the previously decoded traits.</p>
+<pre><code class="language-scala">type VictoryCondition = Lake[Leka[Miaouss], Concat[Flag, CharNul =~: EOS], Leka[&quot;main&quot;] =~: EOS, NewTree[ZeroByte, 8], Leka] =:= (I[20] =~: EOS)
+</code></pre>
+<p>Before going into decoding <code>Lake</code> let's look at what information can we get on
+its parameters from its use in <code>VictoryCondition</code></p>
+<pre><code class="language-scala">type VictoryCondition = Lake[
+    Leka[Miaouss],
+    Concat[Flag, CharNul =~: EOS],
+    Leka[&quot;main&quot;] =~: EOS,
+    NewTree[ZeroByte, 8],
+    Leka
+] =:= (I[20] =~: EOS)
+</code></pre>
+<p>We see that <code>Lake</code> takes </p>
+<ol>
+<li>As its first argument, a sequence of traits, since that's what <code>Leka</code> returns</li>
+<li>As its second argument, a sequence of bytes (In our trait sequence 
+representation). We even know that starting value, which is the flag followed 
+by a char byte. We use <code>Concat</code> to concatenate both into one sequence.</li>
+<li>As its third argument, we have a sequence of sequences of traits. We must
+not be deceived by the <code>=~:</code> operator. <code>Leka[&quot;main&quot;]</code> returns a sequence of 
+traints, and by appending it an end of sequence, we convert it into a sequence of
+one sequence of taits</li>
+<li>As its fourth argument, a tree of height 8 filled with 0 bytes</li>
+<li>As its fifth argument, the trait <code>Leka</code>. This is a type &quot;function&quot; which takes
+a trait and gives a sequence of traits.</li>
+</ol>
+<p>In Scala non-type-system equivalent code, the signature of <code>Lake</code> would be</p>
+<pre><code class="language-scala">def Lake( 
+    a: List[Trait], 
+    b: List[Bytes], 
+    c: List[List[Trait]],
+    d: Tree[8],
+    e: Trait =&gt; List[Trait]
+    )
+</code></pre>
+<p>With this in mind, we rename the arguments of <code>Lake</code> to better reflect what types
+they hold and proceed to study the <code>Lake</code> trait.</p>
+<pre><code class="language-vim">%s/Kale/ListTraits/g
+%s/Ekal/ListBytes/g
+173,208s/Leka/ListListTraits/g
+%s/Akel/Tree/g
+%s/Keal/Func/g
+</code></pre>
+<p>Be careful when renaming <code>Leka</code> inside the body of <code>Lake</code>, since <code>Leka</code> is already
+a trait defined outside <code>Lake</code>.</p>
+<p>Thanks to these renames, the code in <code>Lake</code> has become much more readable much more readable</p>
+<pre><code class="language-scala">type Lake[ListTraits, ListBytes, ListListTraits, Tree, Func[_]] = ListTraits match
+  case EOS =&gt; (ListBytes, Tree)
+</code></pre>
+<p>We first match the first argument, and if it's an empty sequence, we output the
+second and fourth arguments. These are a sequence of bytes and a tree of height
+8 respectively</p>
+<pre><code class="language-scala">  case data1 =~: data2 =&gt; data1 match
+</code></pre>
+<p>If the first argument isn't an empty sequence, we take the first element an match
+it. From this point onward we start encountering some never seen before traits.
+These are all sealed traits which may have a type parameter, and that do nothing
+else with it than store it. </p>
+<p>Reading ahead in the code, we see that we always end up calling <code>Lake</code> again with
+some modified arguments, except with the last trait, <code>Truman</code>, where we simply
+return the <code>ListBytes</code></p>
+<pre><code class="language-scala">    case Truman =&gt; ListBytes
+</code></pre>
+<p>This seems to be an exit condition for <code>Lake</code>, so we'll rename it to <code>Exit</code></p>
+<pre><code class="language-vim">%s/Truman/Exit/g
+</code></pre>
+<p>We come back to the beginning of the match and proceed sequentially</p>
+<pre><code class="language-scala">    case Notification[x] =&gt; Lake[data2, x =~: ListBytes, ListListTraits, Tree, Func]
+</code></pre>
+<p>This trait takes the element it stored and puts it at the beginning of <code>ListBytes</code>.</p>
+<pre><code class="language-scala">    case Bts =&gt; ListBytes match
+      case smoothLike =~: butter =&gt; Lake[data2, butter, ListListTraits, Tree, Func]
+</code></pre>
+<p>This trait takes the first element in <code>ListBytes</code> and ignores it.</p>
+<p>These two cases seem to be doing push and pop operations on <code>ListBytes</code>. 
+Because of this, we rename <code>Notification</code> to <code>Push</code>, <code>Bts</code> to <code>Pop</code> and 
+<code>ListBytes</code> to <code>Stack</code></p>
+<pre><code class="language-vim">%s/ListBytes/Stack/g
+%s/Notification/Push/g
+%s/Bts/Pop/g
+</code></pre>
+<p>Thanks to these findings, we start to get a feel about what <code>Lake</code> is doing</p>
+<pre><code class="language-scala">    case GoogleBusiness =&gt; Stack match
+      case bing =~: sucks =~: lmao =&gt; Lake[data2, ByteAdd[sucks, bing] =~: lmao, ListListTraits, Tree, Funk]
+</code></pre>
+<p>This trait takes the next two elements of <code>Stack</code>, <code>bing</code> and <code>sucks</code>, adds them
+together and puts them back in the <code>Stack</code> on top of the rest of the elements 
+(<code>lmao</code>). Therefore, <code>GoogleBusiness</code> seems to be an add <strong>instruction</strong>, so
+we rename it as such.</p>
+<pre><code class="language-vim">%s/GoogleBusiness/AddInstr/g
+</code></pre>
+<p>We also find out that <code>Stack</code> is a sequence of bytes. This we could have deduced
+from the call to <code>Lake</code> in <code>VictoryCondition</code>, but here we see that these values are
+being treated as integers, which is some extra bit of information we didn't have</p>
+<pre><code class="language-scala">    case MeUwU =&gt; Stack match
+      case owo =~: qwq =~: uwu =&gt; Lake[data2, ByteSub[qwq, owo] =~: uwu, ListListTraits, Tree, Func]
+    case CryptoBeLike =&gt; Stack match
+      case math =~: too =~: hard =&gt; Lake[data2, Xor[too, math] =~: hard, ListListTraits, Tree, Func]
+</code></pre>
+<p><code>MeUwU</code> and <code>CryptoBeLike</code> are almost equivalent to the previous <code>GoogleBusiness</code>, 
+but now performing a subtraction and xor instead of addition, so we rename them 
+to <code>SubInstr</code> and <code>XorInstr</code></p>
+<pre><code class="language-vim">%s/MeUwU/SubInstr/g
+%s/CryptoBeLike/XorInstr/g
+</code></pre>
+<pre><code class="language-scala">    case SadeYouWereOnSilent[x] =&gt; Lake[Func[x], Stack, data2 =~: ListListTraits, Tree, Func]
+</code></pre>
+<p>We finally see the use of the other parameters. With this trait, we take its type
+parameter and use it to replace its first argument with whatever list of traits
+the parameter <code>Func</code> gives when applied to <code>x</code>. Also, the rest of traits which 
+going to be processed are saved in the third parameter.</p>
+<p>We notice how the traits we've been processing until know all seem to be instructions
+on what to do within <code>Lake</code>. We therefore rename <code>ListTraits</code> to <code>Instructions</code>
+and <code>ListListTraits</code> to <code>ListInstructions</code></p>
+<pre><code class="language-vim">%s/ListTraits/Instructions/g
+</code></pre>
+<p>We continue</p>
+<pre><code class="language-scala">    case Sadge[localsCount] =&gt; Lake[Func[localsCount], Stack, ListInstructions, Tree, Func]
+</code></pre>
+<p>This is pretty similar to <code>SadeYouWereOnSilent</code>, with the exception that it doesn't
+save the remaining instructions in <code>ListInstructions</code>. We start to see some kind
+of pattern here, but let's analyze the next trait before uncovering it</p>
+<pre><code class="language-scala">    case TRex[roar] =&gt; Stack match
+      case suchPredator =~: muchMonch =&gt; 
+        IfZero[
+          suchPredator,
+          Magick[Lake[Func[roar], muchMonch, ListInstructions, Tree, Func]]#trick,
+          Magick[Lake[data2, muchMonch, ListInstructions, Tree, Func]]#trick,
+        ]
+</code></pre>
+<p>For this trait, we take the top of the stack and it it's zero, we change the 
+instructions for whatever list of instructions <code>Func</code> gives us when given <code>TRex</code>'s
+type parameter. If the top of the stack isn't zero, execution continues as normal.</p>
+<p>The <code>Magick[...]#trick</code> may distract us at first, but this is using a mechanism
+(called <a href="https://www.scala-lang.org/files/archive/spec/2.13/03-types.html#type-projection">type projection</a>
+for the curious) which just creates a type inside <code>Magick</code> called <code>trick</code> and 
+outputs it again.</p>
+<p>Notice how I used the word <em>execution</em>. We have addition, subtraction and xor 
+instructions, and now we've found a branching instruction. We can easily see now 
+that <code>SadeYouWereOnSilent</code> and <code>Sadge</code> are <code>Call</code> and <code>Jump</code> instructions 
+respectively, <code>TRex</code> a <code>JumpIfZero</code> instruction, and reading ahead, we find 
+<code>Cringe</code>.</p>
+<pre><code class="language-scala">    case Cringe =&gt; ListInstructions match
+      case bigL =~: plusRatio =&gt; Lake[bigL, Stack, plusRatio, Tree, Func]
+</code></pre>
+<p>Which implements the final control flow operation we need to make <code>Lake</code> into a
+virtual machine, the <code>Return</code> instruction.</p>
+<p>Therefore, with this new findings we can guess that <code>ListInstructions</code> are just
+the stack frames of the virtual machine, and that <code>Func</code> gives us a mapping
+between keywords and instructions, almost like a jump table.</p>
+<p>I don't know about you, but it's at this point when I realized that this was
+going to take more time than expected. And it did.</p>
+<p>With these new findings, we have much renaming to do</p>
+<pre><code class="language-vim">%s/ListInstructions/Frames/g
+%s/SadeYouWereOnSilent/Call/g
+%s/Sadge/Jump/g
+%s/TRex/JumpIfZero/g
+%s/Cringe/Return/g
+</code></pre>
+<p>And we carry on with our analysis, to see what other instructions we've defined</p>
+<pre><code class="language-scala">    case StillWaiting =&gt; Stack match
+      case comeOn =~: waitFaster =&gt; Lake[data2, GetNodeElement[Tree, comeOn] =~: waitFaster, Frames, Tree, Func]
+    case OmwToBuyCarrots =&gt; Stack match
+      case miam =~: withHummus =~: andCucumber =&gt; Lake[data2, andCucumber, Frames, ReplaceNodeElement[Tree, miam, withHummus], Func]
+</code></pre>
+<p><code>StillWaiting</code> and <code>OmwToBuyCarrots</code> are the tree operations we were missing, which
+respectively put a node element on the stack and replace a node element with an 
+value in the stack. In the context of a virtual machine, we see that our <code>Tree</code>
+is doing the job of the main memory, and that <code>StillWaiting</code> and <code>OmwToBuyCarrots</code>
+are <code>Load</code> and <code>Store</code> operations</p>
+<pre><code class="language-vim">%s/StillWaiting/Load/g
+%s/OmwToBuyCarrots/Store/g
+173,208s/Tree/Memory/g
+</code></pre>
+<p>Be careful again when renaming <code>Tree</code> to not rename as well <code>NewTree</code> into 
+<code>NewMemory</code>, although the change in name would fit nevertheless</p>
+<pre><code class="language-scala">    case Win =&gt; Stack match
+      case flag =~: checker  =&gt; Lake[data2, flag =~: flag =~: checker, Frames, Memory, Func]
+</code></pre>
+<p>The <code>Win</code> trait instructs to double the head of the stack, so we rename it to 
+<code>DoubleHead</code></p>
+<pre><code class="language-vim">%s/Win/DoubleHead/g
+</code></pre>
+<pre><code class="language-scala">    case Jessie =&gt; Stack match
+      case                     aaaaaaa =~: aaaaaa =~: aaaaa =&gt; Lake[data2, aaaaaa =~: aaaaaaa =~: aaaaa, Frames, Memory, Func]
+    case James =&gt; Stack match
+      case         aaaaaaa =~: aaaaaa =~: aaaaaaaa =~: aaaaa =&gt; Lake[data2, aaaaaaaa =~: aaaaaaa =~: aaaaaa =~: aaaaa, Frames, Memory, Func]
+    case Miaouss =&gt; Stack match
+      case aaaaaaa =~: aaaaaa =~: aaaaaaaa =~: aaaa =~: aaaaa =&gt; Lake[data2, aaaa =~: aaaaaaa =~: aaaaaa =~: aaaaaaaa =~: aaaaa, Frames, Memory, Func]
+</code></pre>
+<p>The following three traits, named after Team Rocket celebrities, do some juggling
+in the stack by bringing to the top the second, third and fourth elements respectively</p>
+<p>We rename them to more proper names</p>
+<pre><code class="language-vim">%s/Jessie/SecondToTop/g
+%s/James/ThirdToTop/g
+%s/Miaouss/FourthToTop/g
+</code></pre>
+<pre><code class="language-scala">    case Exit =&gt; Stack
+</code></pre>
+<p>And we're finally on the last branch of the match, with the exit condition</p>
+<p>Since we want the evaluation of <code>Lake</code> to be <code>I[20] =~: EOS</code>, we can already
+see that the only way we'll get there is by triggering an <code>Exit</code> instruction.</p>
+<p>We know just have to figure out how to get there.</p>
+<p>Yes, that's right. You're revving again. Let's dive into the L[ae]k[ae]</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../../LakeCTF2022/fun-type-system/part-1/section-5.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../../../LakeCTF2022/fun-type-system/interlude.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../../LakeCTF2022/fun-type-system/part-1/section-5.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../../../LakeCTF2022/fun-type-system/interlude.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../../searcher.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="../../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </body>
+</html>

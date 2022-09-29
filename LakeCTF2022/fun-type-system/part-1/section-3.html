@@ -1,0 +1,269 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Functions on lists - Fun type system</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../../../favicon.svg">
+        <link rel="shortcut icon" href="../../../favicon.png">
+        <link rel="stylesheet" href="../../../css/variables.css">
+        <link rel="stylesheet" href="../../../css/general.css">
+        <link rel="stylesheet" href="../../../css/chrome.css">
+        <link rel="stylesheet" href="../../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../../highlight.css">
+        <link rel="stylesheet" href="../../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">Lake CTF 2022</li><li class="chapter-item expanded "><a href="../../../LakeCTF2022/fun-type-system/statement.html"><strong aria-hidden="true">1.</strong> fun type system</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../../LakeCTF2022/fun-type-system/part-1/intro.html"><strong aria-hidden="true">1.1.</strong> Part 1: The first rev</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../../LakeCTF2022/fun-type-system/part-1/section-1.html"><strong aria-hidden="true">1.1.1.</strong> First steps</a></li><li class="chapter-item expanded "><a href="../../../LakeCTF2022/fun-type-system/part-1/section-2.html"><strong aria-hidden="true">1.1.2.</strong> Knocking down the easy ones first</a></li><li class="chapter-item expanded "><a href="../../../LakeCTF2022/fun-type-system/part-1/section-3.html" class="active"><strong aria-hidden="true">1.1.3.</strong> Functions on lists</a></li><li class="chapter-item expanded "><a href="../../../LakeCTF2022/fun-type-system/part-1/section-4.html"><strong aria-hidden="true">1.1.4.</strong> Finding the integers</a></li><li class="chapter-item expanded "><a href="../../../LakeCTF2022/fun-type-system/part-1/section-5.html"><strong aria-hidden="true">1.1.5.</strong> Wait, there's a tree?</a></li><li class="chapter-item expanded "><a href="../../../LakeCTF2022/fun-type-system/part-1/section-6.html"><strong aria-hidden="true">1.1.6.</strong> The Lake</a></li></ol></li><li class="chapter-item expanded "><a href="../../../LakeCTF2022/fun-type-system/interlude.html"><strong aria-hidden="true">1.2.</strong> Interlude: The deobfuscated code</a></li><li class="chapter-item expanded "><a href="../../../LakeCTF2022/fun-type-system/part-2/intro.html"><strong aria-hidden="true">1.3.</strong> Part 2: The second rev</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../../LakeCTF2022/fun-type-system/part-2/section-1.html"><strong aria-hidden="true">1.3.1.</strong> The first check</a></li><li class="chapter-item expanded "><a href="../../../LakeCTF2022/fun-type-system/part-2/section-2.html"><strong aria-hidden="true">1.3.2.</strong> The second check</a></li><li class="chapter-item expanded "><a href="../../../LakeCTF2022/fun-type-system/part-2/section-3.html"><strong aria-hidden="true">1.3.3.</strong> The third check</a></li></ol></li><li class="chapter-item expanded "><a href="../../../LakeCTF2022/fun-type-system/part-3/intro.html"><strong aria-hidden="true">1.4.</strong> Part 3: The solution</a></li></ol></li><li class="chapter-item expanded "><a href="../../../LakeCTF2022/others.html"><strong aria-hidden="true">2.</strong> ...</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Fun type system</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="functions-on-lists"><a class="header" href="#functions-on-lists">Functions on lists</a></h2>
+<p>From this finding, we can deduce the function of many other types which don't
+use more than <code>EOS</code> and generic type parameters.</p>
+<pre><code class="language-scala">type Sloth[L, F[_]] = L match
+  case EOS =&gt; EOS
+  case h =~: t =&gt; F[h] =~: Sloth[t, F]
+</code></pre>
+<p>This one appears to take a sequence <code>L</code> and apply a type <code>F[_]</code> over it as if
+it were a function, returning a new sequence with the results from <code>F</code> as their
+elements. This looks like a map operation on cons-lists, so let's rename it as
+such</p>
+<pre><code class="language-vim">%s/Sloth/Map/g
+</code></pre>
+<p>We can find the fold left operation right after <code>Map</code>, under the name of <code>Wrath</code></p>
+<pre><code class="language-scala">type Wrath[L, Z, F[_, _]] = L match
+  case EOS =&gt; Z
+  case h =~: t =&gt; F[h, Wrath[t, Z, F]]
+</code></pre>
+<p>As we see, this one just takes a type <code>F[_,_]</code> with two type parameters, and
+continuously applies this &quot;function&quot; with each element of the sequence and the
+result of the operation on the rest of the sequence. We rename it to <code>Fold</code></p>
+<pre><code class="language-vim">%s/Wrath/Fold/g
+</code></pre>
+<p>Continuing with our scan we find <code>Lust</code>, which uses <code>Fold</code> to concatenate two lists</p>
+<pre><code class="language-scala">type Lust[L, R] = Fold[L, R, [h, t] =&gt;&gt; h =~: t]
+</code></pre>
+<p>The equivalent Scala code wouldn't be much different</p>
+<pre><code class="language-scala">def lust(l: List, r: List) = fold(l, r, (x,r) =&gt; x :: r)
+</code></pre>
+<p>Don't be afraid by the <code>=&gt;&gt;</code>, that's just a handy new Scala 3 feature called 
+<a href="https://docs.scala-lang.org/scala3/reference/new-types/type-lambdas.html">type lambdas</a></p>
+<p>We rename <code>Lust</code> to <code>Concat</code></p>
+<pre><code class="language-vim">%s/Lust/Concat/g
+</code></pre>
+<p>Further down, we encounter <code>YaPas</code>. We have enough information to see what it's
+doing.</p>
+<pre><code class="language-scala">import scala.compiletime.ops.int.S
+type YaPas[X, I] = I match
+  case 0 =&gt; EOS
+  case S[n] =&gt; X match
+    case EOS      =&gt; Sc =~: YaPas[X, n]
+    case h =~: EOS =&gt; h =~: YaPas[X, n]
+    case h =~: t   =&gt; h =~: YaPas[t, n]
+</code></pre>
+<p>the <code>scala.compiletime.ops.int.S</code> seems daunting at first, but it's easy enough
+to look at <a href="https://docs.scala-lang.org/scala3/reference/metaprogramming/compiletime-ops.html">the Scala 3 documentation</a> to figure out what it does.</p>
+<p>From above</p>
+<blockquote>
+<p>Note that S is the type of the successor of some singleton type. For example the type S[1] is the singleton type 2.</p>
+</blockquote>
+<p>The example here gives us the key. Looking at uses of <code>YaPas</code> in the code, it's
+always called with an integer as its second argument. To be precise, <code>YaPas</code> is
+only used to define <code>IIIIIIIII</code> (With 9 <code>I</code>s!), which in turn is only used to 
+define <code>I</code>, which makes it so the only value <code>YaPas</code> ever receives in the second
+argument is 8.</p>
+<pre><code class="language-scala">type I[X] = IIIIIIIII[X, 8]
+type IIIIIIIII[X, Size] = YaPas[K[X], Size]
+</code></pre>
+<p>From the example we know that <code>8 = S[7]</code>, and so the match statement in this
+case only serves to do a subtraction by one.</p>
+<pre><code class="language-scala">import scala.compiletime.ops.int.S
+type YaPas[X, I] = I match
+  case 0 =&gt; EOS
+  case S[n] =&gt; X match
+    case EOS      =&gt; Sc =~: YaPas[X, n]
+    case h =~: EOS =&gt; h =~: YaPas[X, n]
+    case h =~: t   =&gt; h =~: YaPas[t, n]
+</code></pre>
+<p>Knowing this we can see that what <code>YaPas</code> does is either truncate a sequence to
+8 elements, if it's longer than that, or copy the last element over and over
+until there are 8 elements in the Sequence. Therefore, <code>YaPas</code> will extend the
+sequence to fill 8 elements. We'll rename <code>YaPas</code> to <code>Extend</code></p>
+<pre><code class="language-vim">%s/YaPas/Extend/g
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../../LakeCTF2022/fun-type-system/part-1/section-2.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../../../LakeCTF2022/fun-type-system/part-1/section-4.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../../LakeCTF2022/fun-type-system/part-1/section-2.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../../../LakeCTF2022/fun-type-system/part-1/section-4.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../../searcher.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="../../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </body>
+</html>

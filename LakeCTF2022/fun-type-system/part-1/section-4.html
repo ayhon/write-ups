@@ -1,0 +1,426 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Finding the integers - Fun type system</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../../../favicon.svg">
+        <link rel="shortcut icon" href="../../../favicon.png">
+        <link rel="stylesheet" href="../../../css/variables.css">
+        <link rel="stylesheet" href="../../../css/general.css">
+        <link rel="stylesheet" href="../../../css/chrome.css">
+        <link rel="stylesheet" href="../../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../../highlight.css">
+        <link rel="stylesheet" href="../../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">Lake CTF 2022</li><li class="chapter-item expanded "><a href="../../../LakeCTF2022/fun-type-system/statement.html"><strong aria-hidden="true">1.</strong> fun type system</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../../LakeCTF2022/fun-type-system/part-1/intro.html"><strong aria-hidden="true">1.1.</strong> Part 1: The first rev</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../../LakeCTF2022/fun-type-system/part-1/section-1.html"><strong aria-hidden="true">1.1.1.</strong> First steps</a></li><li class="chapter-item expanded "><a href="../../../LakeCTF2022/fun-type-system/part-1/section-2.html"><strong aria-hidden="true">1.1.2.</strong> Knocking down the easy ones first</a></li><li class="chapter-item expanded "><a href="../../../LakeCTF2022/fun-type-system/part-1/section-3.html"><strong aria-hidden="true">1.1.3.</strong> Functions on lists</a></li><li class="chapter-item expanded "><a href="../../../LakeCTF2022/fun-type-system/part-1/section-4.html" class="active"><strong aria-hidden="true">1.1.4.</strong> Finding the integers</a></li><li class="chapter-item expanded "><a href="../../../LakeCTF2022/fun-type-system/part-1/section-5.html"><strong aria-hidden="true">1.1.5.</strong> Wait, there's a tree?</a></li><li class="chapter-item expanded "><a href="../../../LakeCTF2022/fun-type-system/part-1/section-6.html"><strong aria-hidden="true">1.1.6.</strong> The Lake</a></li></ol></li><li class="chapter-item expanded "><a href="../../../LakeCTF2022/fun-type-system/interlude.html"><strong aria-hidden="true">1.2.</strong> Interlude: The deobfuscated code</a></li><li class="chapter-item expanded "><a href="../../../LakeCTF2022/fun-type-system/part-2/intro.html"><strong aria-hidden="true">1.3.</strong> Part 2: The second rev</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../../LakeCTF2022/fun-type-system/part-2/section-1.html"><strong aria-hidden="true">1.3.1.</strong> The first check</a></li><li class="chapter-item expanded "><a href="../../../LakeCTF2022/fun-type-system/part-2/section-2.html"><strong aria-hidden="true">1.3.2.</strong> The second check</a></li><li class="chapter-item expanded "><a href="../../../LakeCTF2022/fun-type-system/part-2/section-3.html"><strong aria-hidden="true">1.3.3.</strong> The third check</a></li></ol></li><li class="chapter-item expanded "><a href="../../../LakeCTF2022/fun-type-system/part-3/intro.html"><strong aria-hidden="true">1.4.</strong> Part 3: The solution</a></li></ol></li><li class="chapter-item expanded "><a href="../../../LakeCTF2022/others.html"><strong aria-hidden="true">2.</strong> ...</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Fun type system</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="finding-the-integers"><a class="header" href="#finding-the-integers">Finding the integers</a></h2>
+<p>We can get our next clue from another definition right above the <code>CheckeComparison</code>
+trait we found before, in the definition of the alphabet.</p>
+<pre><code class="language-scala">type Split[X] = X match
+  case Sc =&gt; In
+  case In =&gt; Sc
+</code></pre>
+<p>This one just seems to switch around <code>Sc</code> for <code>In</code> and <code>In</code> for <code>Sc</code>. Since it 
+looks like a not function, let's call it <code>Not</code>.</p>
+<pre><code class="language-scala">:%s/Split/Not/g
+</code></pre>
+<p>Now, looking at places where <code>Not</code> is used, we find right bellow the <code>LeFeu</code> 
+trait</p>
+<pre><code class="language-scala">type LeFeu[X, Y] = X match
+  case EOS =&gt; EOS
+  case Sc =~: x =&gt; Y match
+    case b =~: y =&gt; b =~: LeFeu[x, y]
+  case In =~: x =&gt; Y match
+    case b =~: y =&gt; Not[b] =~: LeFeu[x, y]
+</code></pre>
+<p>If we observe the code, it looks to be processing two sequences by pairs of 
+elements, where when the element of <code>X</code> is a <code>Sc</code>, it keeps the element of <code>Y</code>
+the same, but if its a <code>In</code>, then it flips the element of <code>Y</code>. It continues 
+processing all elements until it reaches the end of <code>X</code>, at which point it ends
+the sequence.</p>
+<p>Let's look at the outputs of <code>LeFeu</code> in a truth table
+| <code>X</code>  | <code>Y</code>  | <code>LeFeu[X,Y]</code> |
+| <code>Sc</code> | <code>Sc</code> | <code>Sc</code>         |
+| <code>Sc</code> | <code>In</code> | <code>In</code>         |
+| <code>In</code> | <code>Sc</code> | <code>In</code>         |
+| <code>In</code> | <code>In</code> | <code>Sc</code>         |</p>
+<p>From here it's easy to see that <code>LeFeu</code> is the xor operation. </p>
+<pre><code class="language-vim">%s/LeFeu/Xor/g
+</code></pre>
+<p>Even more, we can deduce that <code>Sc</code> represents an off bit and <code>In</code> an on bit, 
+since <code>Xor[In,Y] = Not[Y]</code></p>
+<pre><code class="language-vim">%s/In/OnBit/g
+%s/Sc/OffBit/g
+</code></pre>
+<p>With this, we can come back to <code>CheckedComparison</code> to see that it represents
+a sequence of 8 off bites. This is a 0 byte in binary</p>
+<pre><code class="language-scala">type CheckedComparison = OffBit =~: OffBit =~: OffBit =~: OffBit =~: OffBit =~: OffBit =~: OffBit =~: OffBit =~: EOS
+</code></pre>
+<p>We could have deduced it from <code>CharNul</code> being defined as <code>CheckedComparison</code>, but
+it's good to know for sure.</p>
+<pre><code class="language-vim">%s/CheckedComparison/ZeroByte/g
+</code></pre>
+<p>After figuring out that <code>Sc</code> and <code>In</code> correspond to bits, we can start to decode
+more traits. </p>
+<p>A couple of easy ones first, we find that <code>TheStart</code> and <code>BasicComparison</code> are
+just sequences with a single on and off bit respectively. </p>
+<pre><code class="language-scala">type TheStart = OnBit =~: EOS
+type BasicComparison = OffBit =~: EOS
+</code></pre>
+<p>We rename them to <code>BitstringOne</code> and <code>BitstringZero</code> respectively, to illustrate
+that they are sequences of bits.</p>
+<pre><code class="language-vim">%s/TheStart/BistringOne/g
+%s/BasicComparison/BitstringZero/g
+</code></pre>
+<p>Also, we can go back to <code>CheckeComparison</code> to see that it corresponds to a byte 
+with values 1, with a little endian encoding.</p>
+<pre><code class="language-scala">type CheckeComparison  = OnBit  =~: OffBit =~: OffBit =~: OffBit =~:
+                         OffBit =~: OffBit =~: OffBit =~: OffBit =~: Checksum
+type CheckedComparison = OffBit =~: OffBit =~: OffBit =~: OffBit =~:
+                         OffBit =~: OffBit =~: OffBit =~: OffBit =~: Checksum
+</code></pre>
+<p>To figure out the little endianness, you could have deduced it from how the 
+<code>Extend</code> trait works or just taken a leap of faith, and while the first option 
+is more elegant, what's more likely to happen in a CTF is the second.</p>
+<p>We rename it to <code>OneByte</code>.</p>
+<pre><code class="language-vim">%s/CheckeComparison/OneByte/g
+</code></pre>
+<p>Continuing with our traits that we can understand, we have <code>AuLac</code> which appears
+to scan the sequence <code>X</code> for an <code>OnBit</code>, if it finds it outputs <code>F</code>, and if it
+reaches the end without finding one outputs <code>T</code>.</p>
+<pre><code class="language-scala">type AuLac[X, T, F] = X match
+  case OffBit =~: EOS =&gt; T
+  case OffBit =~: t =&gt; AuLac[t, T, F]
+  case OnBit =~: t =&gt; F
+</code></pre>
+<p>This is a pretty straightforward zero check, so let's rename <code>AuLac</code> to something
+like <code>IfZero</code></p>
+<pre><code class="language-vim">%s/AuLac/IfZero/g
+</code></pre>
+<p>Next is a big one. Although <code>SelectSection</code> has a lot of code, it's not actually
+doing nothing much, just a couple of control statements.</p>
+<pre><code class="language-scala">type SelectSection[X, Y, C] = X match
+  case OffBit =&gt; Y match
+    case OffBit =&gt; C match
+      case OffBit =&gt; (OffBit, OffBit)
+      case OnBit =&gt; (OnBit, OffBit)
+    case OnBit =&gt; C match
+      case OffBit =&gt; (OnBit, OffBit)
+      case OnBit =&gt; (OffBit, OnBit)
+  case OnBit =&gt; Y match    
+    case OffBit =&gt; C match
+      case OffBit =&gt; (OnBit, OffBit)
+      case OnBit =&gt; (OffBit, OnBit)
+    case OnBit =&gt; C match
+      case OffBit =&gt; (OffBit, OnBit)
+      case OnBit =&gt; (OnBit, OnBit)
+</code></pre>
+<p>We can easily understand it better by building a truth table, like we did for <code>Xor</code>.
+For simplicity, let's represent <code>OffBit</code> with 0 and <code>OnBit</code> with 1
+| <code>X</code> | <code>Y</code> | <code>C</code> | <code>SelectSection[X,Y,C]</code> |
+|  0  |  0  |  0  |          0, 0          |
+|  0  |  0  |  1  |          1, 0          |
+|  0  |  1  |  0  |          1, 0          |
+|  0  |  1  |  1  |          0, 1          |
+|  1  |  0  |  0  |          1, 0          |
+|  1  |  0  |  1  |          0, 1          |
+|  1  |  1  |  0  |          0, 1          |
+|  1  |  1  |  1  |          1, 1          |</p>
+<p>It may be hard to see at first, but this corresponds to a binary addition with a
+carry, where the first bit out is the result of the operation, and the second 
+one is the overflow bit. It can also be seen as an output of a 2 bit integer, 
+which since it's little endian is read backwards. Therefore, `1 0 1 = 0 1&quot; Since 
+1 + 0 + the carry bit 1 = 2 = 0b10 = 0,1.</p>
+<p>You can make this connection by staring at the truth table long enough, but you
+can also look where <code>SelectSection</code> is being used to find some type parameter
+names which give it away much easier, in the previously named <code>CheckChecksum</code>
+trait, but since renamed to <code>CheckEOS</code> when we renamed <code>Checksum</code> to <code>EOS</code>.</p>
+<pre><code class="language-scala">type CheckEOS[X, Y, C] = (X, Y) match
+  case (x =~: EOS, y =~: EOS) =&gt; SelectSection[x, y, C] match
+    case (res, carry) =&gt; res =~: carry =~: EOS
+  case (X, y =~: EOS) =&gt; CheckEOS[X, y =~: OffBit =~: EOS, C]
+  case (x =~: EOS, Y) =&gt; CheckEOS[x =~: OffBit =~: EOS, Y, C]
+  case (xh =~: xt, yh =~: yt) =&gt; SelectSection[xh, yh, C] match
+    case (res, carry) =&gt; res =~: CheckEOS[xt, yt, carry]
+</code></pre>
+<p>We see that here <code>SelectSection</code> is being used to get the traits <code>res</code> and 
+<code>carry</code>, whose names nicely match with our previous interpretation. More so, 
+looking at <code>CheckEOS</code> closely we can see that it corresponds to a binary
+addition with a carry <code>C</code>. If the bitstrings X and Y are not the same length,
+the shorter one is extended until it matches the longer one, after which the
+final result is calculated and appended to the end of the solution.</p>
+<p>We therefore have that <code>SelectSection</code> is a <code>BitAddWithCarry</code> and <code>CheckEOS</code> is
+a <code>BitstringAddWithCarry</code></p>
+<pre><code class="language-vim">%s/SelectSection/BitAddWithCarry/g
+%s/CheckEOS/BitstringAddWithCarry/g
+</code></pre>
+<p>Looking at traits which use <code>BitAddWithCarry</code> and <code>BitstringAddWithCarry</code>, 
+we find the traits <code>K</code> and <code>Yea</code></p>
+<pre><code class="language-scala">type K[X] = X match
+  case 0 =&gt; BitstringZero
+  case S[n] =&gt; BitstringAddWithCarry[I[n], BistringOne, OffBit]
+</code></pre>
+<p>Te trait <code>K</code> receives an integer as <code>X</code> and matches 0 with <code>BistringZero</code> and
+n with 1 + <code>K[X-1]</code>, where <code>X-1</code> we obtain thanks to <a href="https://docs.scala-lang.org/scala3/reference/metaprogramming/compiletime-ops.html"><code>S</code></a> and the addition is done with 
+<code>BistringAddWithCarry</code>. Therefore, <code>K</code> is just a constructor for the integers in
+bitstring format. The name <code>K</code> seems proper, so we don't change it.</p>
+<pre><code class="language-scala">type Yea[X, Y, C] = (X, Y) match
+  case (x =~: EOS, y =~: EOS) =&gt; BitAddWithCarry[x, y, C] match
+    case (res, carry) =&gt; res =~: EOS
+  case (xh =~: xt, yh =~: yt) =&gt; BitAddWithCarry[xh, yh, C] match
+    case (res, carry) =&gt; res =~: Yea[xt, yt, carry]
+</code></pre>
+<p><code>Yea</code> just takes two bitstrings of the same length and adds them together. The
+difference with <code>BitstringAddWithCarry</code> is that it requires both <code>X</code> and <code>Y</code> be
+the same length, and the result itself ignores the last carry to ensure that the
+result also has the same length as the inputs.</p>
+<p>This trait is only used to define <code>IIIIIIIIII</code> (With 10 <code>I</code>s!), which is the
+same as <code>Yea</code>, but fixing the carry parameter <code>C</code> as <code>OffBit</code>. This is important
+since the <code>IIIIIIIIII</code> with 10 <code>I</code>s is the trait used to define the alphabet</p>
+<pre><code class="language-scala">type CharA = IIIIIIIIII[CharNul, OneByte]
+type CharB = IIIIIIIIII[CharA, OneByte]
+type CharC = IIIIIIIIII[CharB, OneByte]
+type CharD = IIIIIIIIII[CharC, OneByte]
+type CharE = IIIIIIIIII[CharD, OneByte]
+type CharF = IIIIIIIIII[CharE, OneByte]
+type CharG = IIIIIIIIII[CharF, OneByte]
+type CharH = IIIIIIIIII[CharG, OneByte]
+type CharI = IIIIIIIIII[CharH, OneByte]
+type CharJ = IIIIIIIIII[CharI, OneByte]
+type CharK = IIIIIIIIII[CharJ, OneByte]
+type CharL = IIIIIIIIII[CharK, OneByte]
+type CharM = IIIIIIIIII[CharL, OneByte]
+type CharN = IIIIIIIIII[CharM, OneByte]
+type CharO = IIIIIIIIII[CharN, OneByte]
+type CharP = IIIIIIIIII[CharO, OneByte]
+type CharQ = IIIIIIIIII[CharP, OneByte]
+type CharR = IIIIIIIIII[CharQ, OneByte]
+type CharS = IIIIIIIIII[CharR, OneByte]
+type CharT = IIIIIIIIII[CharS, OneByte]
+type CharU = IIIIIIIIII[CharT, OneByte]
+type CharV = IIIIIIIIII[CharU, OneByte]
+type CharW = IIIIIIIIII[CharV, OneByte]
+type CharX = IIIIIIIIII[CharW, OneByte]
+type CharY = IIIIIIIIII[CharX, OneByte]
+type CharZ = IIIIIIIIII[CharY, OneByte]
+</code></pre>
+<p>Now the encoding finally makes sense. Since <code>IIIIIIIIII</code> with 10 <code>I</code>s is just an
+addition on bytes, the encoding is achieved by starting with <code>CharNul</code> being 0
+and giving each successive letter a successive number, so A is 1, B is 2, and so
+on until Z, which gets 26.</p>
+<p>With these finds, we decide to rename <code>Yea</code> to <code>ByteAddWithCarry</code> and <code>IIIIIIIII</code>
+with 10 <code>I</code>s to <code>ByteAdd</code></p>
+<pre><code class="language-vim">%s/Yea/ByteAddWithCarry/g
+%s/IIIIIIIIII/ByteAdd/g
+</code></pre>
+<p>Since we've started to substitute succesive <code>I</code>s with different names, we might
+as well address the <code>I</code>-traits, traits whose names are made exclusively out of 
+<code>I</code>s. From here we find the now <code>ByteAddI</code>, previously <code>IIIIIIIIIII</code> with 11 <code>I</code>s</p>
+<pre><code class="language-scala">type ByteAddI[X, Y] = ByteAdd[X, ByteAdd[Map[Y, Not], OneByte]]
+</code></pre>
+<p>What <code>ByteAddI</code> does is add <code>X</code> with the negated <code>Y</code>, and add one to the result.
+We observe that a negated <code>Y</code> + 1 is the <a href="https://en.wikipedia.org/wiki/Two%27s_complement">C2</a>
+representation of -Y, so <code>ByteAddI</code> is just a byte substraction. We rename it to
+<code>ByteSub</code></p>
+<pre><code>%s/ByteAddI/ByteSub/g
+</code></pre>
+<p>There are other <code>I</code>-traits which weren't affected by our previous renames</p>
+<pre><code class="language-scala">type I[X] = IIIIIIIII[X, 8]
+type IIIIIIIII[X, Size] = Extend[K[X], Size]
+</code></pre>
+<p>These are both traits we've already encountered. We observe that <code>IIIIIIIII</code> with
+9 <code>I</code>s is just taking a number and a size, converting that number into bitstring
+representation with <code>K</code> and extending it to the provided size. <code>I</code> is just fixing
+the size to be 8, which forms a byte. We'll rename <code>IIIIIIIII</code> to be called
+<code>IntToBitstring</code>, but we'll keep <code>I</code> as it is. Like with <code>K</code> being a constructor
+of integer bitstrings, <code>I</code> is a constructor of integer bytes, so the name seems
+convenient.</p>
+<pre><code class="language-vim">%s/IIIIIIIII/IntToBitstring/g
+</code></pre>
+<p>With this, we can finally understand what the <code>VictoryCondition</code> was
+testing for.
+<code>I[20] =~: EOS</code> is a sequence containing a single byte with a 20 in
+binary.</p>
+<p>With this we've uncovered all operations on integers implemented in the type
+system. However, there are a couple of traits still not decoded. We'll focus
+on those next</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../../LakeCTF2022/fun-type-system/part-1/section-3.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../../../LakeCTF2022/fun-type-system/part-1/section-5.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../../LakeCTF2022/fun-type-system/part-1/section-3.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../../../LakeCTF2022/fun-type-system/part-1/section-5.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../../searcher.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="../../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </body>
+</html>
