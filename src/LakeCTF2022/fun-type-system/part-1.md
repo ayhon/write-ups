@@ -7,8 +7,7 @@ how to solve the challenge.
 ```scala
 // THIS IS THE ONLY LINE YOU HAVE TO CHANGE!
 // if the flag were FLAG, enter it like this:
-// type Flag = CharF =~: CharL =~: CharA =~: CharG =~: Checksum // keep the Checksum at the end
-type Flag = CharQ =~: CharI =~: CharY =~: CharZ =~: CharY =~: CharH =~: CharG =~: CharNul =~: Checksum
+type Flag = CharF =~: CharL =~: CharA =~: CharG =~: Checksum // keep the Checksum at the end
 ```
 
 This gives us a couple of clues. The input we control in the program is the definition of
@@ -24,13 +23,14 @@ sealed trait =~:[Compare, To]
 <summary>A note on traits</summary>
 In Scala, there exists the concepts of classes and interfaces, mainly form an 
 interest to keep it compatible with Java code, which Scala was designed to 
-[interoperate](https://en.wikipedia.org/wiki/Language_interoperability) with.
+<a href="https://en.wikipedia.org/wiki/Language_interoperability">interoperate</a> with.
 However, in pure Scala code, you won't find any mention of classes or interfaces,
 but only traits. Think of a trait as a more powerful type of interface, with the
-ability to be instantiated as an object. Thought this write up, I'll use type and
-traits almost interchangeably, the same way that I'll refer to [kinds](https://kubuszok.com/compiled/kinds-of-types-in-scala/#kinds-and-higher-kinded-types) as if they were 
-functions. In practice, it's easier to reason about them this way for the 
-challenge, and they aren't that far off the truth.
+ability to be instantiated as an object. Throughout this write up, I'll use type and
+traits almost interchangeably, the same way that I'll refer to 
+<a href="https://kubuszok.com/compiled/kinds-of-types-in-scala/#kinds-and-higher-kinded-types">kinds</a> 
+as if they were functions. In practice, it's easier to reason about them this 
+way for the challenge, and they aren't that far off the truth.
 
 The keyword `sealed` just tells the Scala compiler that all objects implementing
 that trait are defined in the same file the trait definition is in. It's a
@@ -41,7 +41,7 @@ that we define a type with the symbols `=~:`. In Scala you don't have the usual
 restrictions for a keyword you'll find in other languages. 
 
 Also, if your type takes 2 generics as "type arguments", you can use the infix
-syntax to apply them. These are called [infix operators](https://www.scala-Lang.org/files/archive/spec/2.11/03-types.html#infix-types), which means that the following two are
+syntax to apply them. These are called <a href="https://www.scala-Lang.org/files/archive/spec/2.11/03-types.html#infix-types">infix operators</a>, which means that the following two are
 equivalent
 ```scala
 =~:[Flag,Flag]

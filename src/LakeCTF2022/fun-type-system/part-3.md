@@ -6,7 +6,7 @@ program to compile.
 Our flag is a sequence `x` such that
  1. `len(x) == 8`
  2. `XOR(x) == 13`
- 3. `x[i] + x[i+1] + x[i+2] == x[i]` where
+ 3. `x[i] + x[i+1] + x[i+2] == SUMS[i]` where
 ```scala
 SUMS = [49, 65, 48, 29, 24, 32, 40]
 ```
