@@ -1,6 +1,6 @@
 ## Functions on lists
 
-From this finding, we can deduce the function of many other types which don't
+From this finding, we can deduce the behaviour of many other traits which don't
 use more than `EOS` and generic type parameters.
 ```scala
 type Sloth[L, F[_]] = L match
@@ -14,7 +14,7 @@ such
 ```vim
 %s/Sloth/Map/g
 ```
-We can find the fold left operation right after `Map`, under the name of `Wrath`
+We can find the fold right operation right after `Map`, under the name of `Wrath`
 ```scala
 type Wrath[L, Z, F[_, _]] = L match
   case EOS => Z
@@ -34,7 +34,7 @@ The equivalent Scala code wouldn't be much different
 ```scala
 def lust(l: List, r: List) = fold(l, r, (x,r) => x :: r)
 ```
-Don't be afraid by the `=>>`, that's just a handy new Scala 3 feature called 
+Don't be scared by the `=>>`, that's just a handy new Scala 3 feature called 
 [type lambdas](https://docs.scala-lang.org/scala3/reference/new-types/type-lambdas.html)
 
 We rename `Lust` to `Concat`
@@ -53,7 +53,7 @@ type YaPas[X, I] = I match
     case h =~: EOS => h =~: YaPas[X, n]
     case h =~: t   => h =~: YaPas[t, n]
 ```
-the `scala.compiletime.ops.int.S` seems daunting at first, but it's easy enough
+The `scala.compiletime.ops.int.S` seems daunting at first, but it's easy enough
 to look at [the Scala 3 documentation](https://docs.scala-lang.org/scala3/reference/metaprogramming/compiletime-ops.html) to figure out what it does.
 
 From above
@@ -69,7 +69,7 @@ type I[X] = IIIIIIIII[X, 8]
 type IIIIIIIII[X, Size] = YaPas[K[X], Size]
 ```
 From the example we know that `8 = S[7]`, and so the match statement in this
-case only serves to do a subtraction by one.
+case only serves to subtract by one.
 ```scala
 import scala.compiletime.ops.int.S
 type YaPas[X, I] = I match

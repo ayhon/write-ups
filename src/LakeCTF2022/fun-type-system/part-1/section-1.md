@@ -34,11 +34,11 @@ The keyword `sealed` just tells the Scala compiler that all objects implementing
 that trait are defined in the same file the trait definition is in. It's a
 mechanism for controlling the creation of new objects which implement a trait.
 
-Finally, for those who haven't had any experience with Scala, it may look weird
+Also, for those who haven't had any experience with Scala, it may look weird
 that we define a type with the symbols `=~:`. In Scala you don't have the usual
 restrictions for a keyword you'll find in other languages. 
 
-Also, if your type takes 2 generics as "type arguments", you can use the infix
+Finally, if your type takes 2 generics as "type arguments", you can use the infix
 syntax to apply them. These are called <a href="https://www.scala-Lang.org/files/archive/spec/2.11/03-types.html#infix-types">infix operators</a>, which means that the following two are
 equivalent
 ```scala
