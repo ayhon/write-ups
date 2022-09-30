@@ -192,10 +192,10 @@ way for the challenge, and they aren't that far off the truth.
 <p>The keyword <code>sealed</code> just tells the Scala compiler that all objects implementing
 that trait are defined in the same file the trait definition is in. It's a
 mechanism for controlling the creation of new objects which implement a trait.</p>
-<p>Finally, for those who haven't had any experience with Scala, it may look weird
+<p>Also, for those who haven't had any experience with Scala, it may look weird
 that we define a type with the symbols <code>=~:</code>. In Scala you don't have the usual
 restrictions for a keyword you'll find in other languages. </p>
-<p>Also, if your type takes 2 generics as &quot;type arguments&quot;, you can use the infix
+<p>Finally, if your type takes 2 generics as &quot;type arguments&quot;, you can use the infix
 syntax to apply them. These are called <a href="https://www.scala-Lang.org/files/archive/spec/2.11/03-types.html#infix-types">infix operators</a>, which means that the following two are
 equivalent</p>
 <pre><code class="language-scala">=~:[Flag,Flag]
@@ -268,7 +268,7 @@ in these definitions. From here we can deduce that <code>Checksum</code> is some
 <pre><code class="language-vim">%s/Checksum/EOS/g
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="functions-on-lists"><a class="header" href="#functions-on-lists">Functions on lists</a></h2>
-<p>From this finding, we can deduce the function of many other types which don't
+<p>From this finding, we can deduce the behaviour of many other traits which don't
 use more than <code>EOS</code> and generic type parameters.</p>
 <pre><code class="language-scala">type Sloth[L, F[_]] = L match
   case EOS =&gt; EOS
@@ -280,7 +280,7 @@ elements. This looks like a map operation on cons-lists, so let's rename it as
 such</p>
 <pre><code class="language-vim">%s/Sloth/Map/g
 </code></pre>
-<p>We can find the fold left operation right after <code>Map</code>, under the name of <code>Wrath</code></p>
+<p>We can find the fold right operation right after <code>Map</code>, under the name of <code>Wrath</code></p>
 <pre><code class="language-scala">type Wrath[L, Z, F[_, _]] = L match
   case EOS =&gt; Z
   case h =~: t =&gt; F[h, Wrath[t, Z, F]]
@@ -296,7 +296,7 @@ result of the operation on the rest of the sequence. We rename it to <code>Fold<
 <p>The equivalent Scala code wouldn't be much different</p>
 <pre><code class="language-scala">def lust(l: List, r: List) = fold(l, r, (x,r) =&gt; x :: r)
 </code></pre>
-<p>Don't be afraid by the <code>=&gt;&gt;</code>, that's just a handy new Scala 3 feature called 
+<p>Don't be scared by the <code>=&gt;&gt;</code>, that's just a handy new Scala 3 feature called 
 <a href="https://docs.scala-lang.org/scala3/reference/new-types/type-lambdas.html">type lambdas</a></p>
 <p>We rename <code>Lust</code> to <code>Concat</code></p>
 <pre><code class="language-vim">%s/Lust/Concat/g
@@ -311,7 +311,7 @@ type YaPas[X, I] = I match
     case h =~: EOS =&gt; h =~: YaPas[X, n]
     case h =~: t   =&gt; h =~: YaPas[t, n]
 </code></pre>
-<p>the <code>scala.compiletime.ops.int.S</code> seems daunting at first, but it's easy enough
+<p>The <code>scala.compiletime.ops.int.S</code> seems daunting at first, but it's easy enough
 to look at <a href="https://docs.scala-lang.org/scala3/reference/metaprogramming/compiletime-ops.html">the Scala 3 documentation</a> to figure out what it does.</p>
 <p>From above</p>
 <blockquote>
@@ -326,7 +326,7 @@ argument is 8.</p>
 type IIIIIIIII[X, Size] = YaPas[K[X], Size]
 </code></pre>
 <p>From the example we know that <code>8 = S[7]</code>, and so the match statement in this
-case only serves to do a subtraction by one.</p>
+case only serves to subtract by one.</p>
 <pre><code class="language-scala">import scala.compiletime.ops.int.S
 type YaPas[X, I] = I match
   case 0 =&gt; EOS
